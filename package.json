@@ -1,0 +1,22 @@
+{
+  "name": "kubemq-nodejs",
+  "version": "1.0.0",
+  "description": "The KubeMQ SDK for Nodejs enables Nodejs developers to communicate with KubeMQ server.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kubemq-io/kubemq-node.git"
+  },
+  "keywords": [
+    "Messaging"
+  ],
+  "author": "Ido Sheffer",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kubemq-io/kubemq-node/issues"
+  },
+  "homepage": "https://github.com/kubemq-io/kubemq-node#readme"
+}
