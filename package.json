@@ -18,5 +18,8 @@
   "bugs": {
     "url": "https://github.com/kubemq-io/kubemq-node/issues"
   },
-  "homepage": "https://github.com/kubemq-io/kubemq-node#readme"
+  "homepage": "https://github.com/kubemq-io/kubemq-node#readme",
+  "dependencies": {
+    "grpc": "^1.24.2"
+  }
 }
