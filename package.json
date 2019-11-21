@@ -20,6 +20,11 @@
   },
   "homepage": "https://github.com/kubemq-io/kubemq-node#readme",
   "dependencies": {
+<<<<<<< HEAD
+=======
+    "@grpc/proto-loader": "^0.5.3",
+    "enum": "^2.5.0",
+>>>>>>> bb12b9b... #GRPC - Added TLS Connection
     "grpc": "^1.24.2"
   }
 }
