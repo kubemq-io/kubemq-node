@@ -32,7 +32,7 @@ class StoreSubscriber{
    * @param {string} group - Non mandatory group for round robin subscription.
    */
     constructor(kubeMQHost, kubeMQGrpcPort, client, channelName, group) {
-        this.pubSub = new PubSub.PubSub(kubeMQHost, kubeMQGrpcPort, client, channelName, group, true)
+        this.pubSub = new PubSub(kubeMQHost, kubeMQGrpcPort, client, channelName, group, true)
     }
 
      /**
@@ -77,6 +77,6 @@ class StoreSubscriber{
 
 }
 
-module.exports.StoreSubscriber = StoreSubscriber;
+module.exports = StoreSubscriber;
 
 module.exports.EventStoreType = PubSub.EventStoreType;

@@ -47,4 +47,4 @@ class CommandResponse{
     }
 }
 
-module.exports.CommandResponse = CommandResponse;
+module.exports = CommandResponse;

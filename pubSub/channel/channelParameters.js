@@ -32,4 +32,4 @@ class ChannelParameters{
         this.kubemq_address    =    kubemq_address;
     }
 }
-module.exports.ChannelParameters = ChannelParameters;
+module.exports = ChannelParameters;

@@ -1,8 +1,8 @@
-const MessageQueue = require('../queue/message_queue');
-var Message = require('../queue/message');
-const byteConverter = require('../tools/stringToByte').stringToByte;
+const MessageQueue = require('../../queue/message_queue');
+var Message = require('../../queue/message');
+const byteConverter = require('../../tools/stringToByte').stringToByte;
 
-let message_queue = new MessageQueue('localhost:50000','testQueue','client');
+let message_queue = new MessageQueue('localhost:50000','hello-world-queue','test-queue-client-id1');
 
 
   let messages = [];

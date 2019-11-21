@@ -1,3 +1,4 @@
+const ReceiveMessagesResponse = require('../queue/receive_messages_response')
 
 /**
  * Filled internally. 
@@ -13,6 +14,8 @@ class SendMessageBatchResult{
 
         //Returned from KubeMQ, false if no error.
         this.Error           =    send_message_batch_result.Error;
+
+        this.MessagesResponse     =    send_message_batch_result.Results;
 
     }
 }

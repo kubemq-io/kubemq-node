@@ -1,7 +1,7 @@
-const MessageQueue = require('../queue/message_queue');
-const msgQueue     = require('../queue/message');
-
-let message_queue = new MessageQueue('localhost:50000', 'testQueue', 'client');
+const MessageQueue = require('../../queue/message_queue');
+const msgQueue     = require('../../queue/message');
+let channelName   = 'hello-world-queue';
+let message_queue = new MessageQueue('localhost:50000', channelName,'test-queue-client-id1');
 
 
 let transaction      =     message_queue.createTransaction();

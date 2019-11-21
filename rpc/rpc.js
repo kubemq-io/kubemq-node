@@ -85,6 +85,7 @@ module.exports.Type = {
     Query: 2
 };
 
+
 module.exports.Request = Request;
 module.exports.QueryResponse = QueryResponse;
 

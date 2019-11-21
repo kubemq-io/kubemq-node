@@ -77,6 +77,6 @@ class CommandReceiver{
     }
 }
 
-module.exports.CommandReceiver = CommandReceiver;
-module.exports.Response = CommandResponse.CommandResponse;
+module.exports = CommandReceiver;
+module.exports.Response = CommandResponse;
 module.exports.CommandRequest = rpc.Request;

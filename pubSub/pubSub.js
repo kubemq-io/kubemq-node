@@ -32,12 +32,12 @@ class PubSub{
     constructor(kubeMQHost, kubeMQPort, client, channelName, group, useStore=false) {
    
         this.kubeMQHost    =  kubeMQHost;
-        this.kubeMQport    =  isNaN(kubeMQPort)? kubeMQPort.toString() : kubeMQPort ;
+        this.kubeMQPort    =  isNaN(kubeMQPort)? kubeMQPort.toString() : kubeMQPort ;
         this.channel     =  channelName;
         this.client_id        =  client;
         this.store         = useStore;
         this.group          =group;
-        sender                 =    new Sender(this.kubeMQHost.concat(':',  this.kubeMQport))
+        sender                 =    new Sender(this.kubeMQHost.concat(':',  this.kubeMQPort))
     }
 
 
@@ -63,7 +63,7 @@ class PubSub{
 
 
     subscribeToEvents(req_handler,error_handler, storeProperties){       
-        subscriber  = new Subscriber.Subscriber(this.kubeMQHost.concat(':',this.kubeMQport));
+        subscriber  = new Subscriber.Subscriber(this.kubeMQHost.concat(':',this.kubeMQPort));
     
         var subRequest = {
             SubscribeTypeData :   this.store  ? Subscriber.SubscribeType.EventsStore : Subscriber.SubscribeType.Events, ClientID: this.client_id ,Channel: this.channel
@@ -96,7 +96,8 @@ class StoreProperties{
     }
 }
 
+module.exports = PubSub
 
-module.exports = {PubSub,Event,StoreProperties};
+module.exports = {Event,StoreProperties};
 
 module.exports.EventStoreType = Subscriber.EventStoreType;

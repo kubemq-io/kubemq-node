@@ -83,4 +83,5 @@ function fromInnerSubscribeRequest(inner){
     return subscribeRequest;
 }
 
-module.exports =    {SubscriberRequest,fromInnerSubscribeRequest};
+module.exports =  SubscriberRequest;
+module.exports.fromInnerSubscribeRequest =  fromInnerSubscribeRequest;

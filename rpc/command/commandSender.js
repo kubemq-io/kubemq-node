@@ -53,5 +53,5 @@ class CommandSender{
 
 }
 
-module.exports.CommandSender = CommandSender;
+module.exports = CommandSender;
 module.exports.CommandRequest = CommandRequest;

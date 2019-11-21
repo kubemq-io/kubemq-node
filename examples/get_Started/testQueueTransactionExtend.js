@@ -1,8 +1,8 @@
-const MessageQueue = require('../queue/message_queue');
-const msgQueue     = require('../queue/message');
-const byteConverter = require('../tools/stringToByte').stringToByte;
+const MessageQueue = require('../../queue/message_queue');
+const msgQueue     = require('../../queue/message');
+const byteConverter = require('../../tools/stringToByte').stringToByte;
 
-let message_queue = new MessageQueue('localhost:50000', 'testQueue', 'client');
+let message_queue = new MessageQueue('localhost:50000', 'hello-world-queue','test-queue-client-id1');
 
 
   let transaction      =     message_queue.createTransaction();
@@ -18,5 +18,7 @@ let message_queue = new MessageQueue('localhost:50000', 'testQueue', 'client');
       }
   }
 
-  
-    transaction.receive(5, 10,queueHandler);
+  function errorHandler(msg) {
+    console.log(`Received error ${msg}`);
+  };
+    transaction.receive(5, 10,queueHandler,errorHandler);

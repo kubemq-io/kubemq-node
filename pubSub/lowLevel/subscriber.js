@@ -82,11 +82,9 @@ const   EventStoreType  = {
 }
 
 const  SubscribeType   ={
-    SubscribeTypeUndefined   :    0,
     Events                   :    1,
     EventsStore              :    2,
-    Commands                 :    3,
-    Queries                  :    4
+ 
 }
 
 
@@ -96,3 +94,7 @@ module.exports ={
     SubscribeType
 }
 
+module.exports = Subscriber;
+module.exports.EventStoreType = EventStoreType;
+module.exports.SubscribeType = SubscribeType;
+   

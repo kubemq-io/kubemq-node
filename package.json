@@ -2,7 +2,7 @@
   "name": "kubemq-nodejs",
   "version": "1.0.0",
   "description": "The KubeMQ SDK for Nodejs enables Nodejs developers to communicate with KubeMQ server.",
-  "main": "index.js",
+  "main": "",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -20,6 +20,11 @@
   },
   "homepage": "https://github.com/kubemq-io/kubemq-node#readme",
   "dependencies": {
-    "grpc": "^1.24.2"
+    "@grpc/proto-loader": "^0.5.3",
+    "async-lock": "^1.2.2",
+    "enum": "^2.5.0",
+    "grpc": "^1.24.2",
+    "tls": "0.0.1",
+    "ws": "^7.2.0"
   }
 }

@@ -26,6 +26,7 @@ var kubeClient = require('../basic/grpc_client');
 const SendMessageResult = require('./send_message_result')
 var id_gen = require("../tools/id_generator");
 const ReceiveMessagesResponse = require('../queue/receive_messages_response')
+const SendMessageBatchResult = require('../queue/send_batch_message_result')
 const Message  = require('./message')
 var Transaction = require('./transaction')
 const streamRequest = require('./stream_request_type')
@@ -57,9 +58,10 @@ class MessageQueue{
     * Create a Transaction.
     */
     createTransaction(){
-        if(this.transaction === null){
+        if(this.transaction === null || this.transaction.streamObserver===null){
             this.transaction    =   new Transaction(this.kubemq_address,this);
-        }
+        }       
+        
         return this.transaction;
     }
 
@@ -107,7 +109,7 @@ class MessageQueue{
                     if (err) {
                         reject(new Error(err));
                     }else{
-                        resolve(new SendMessageResult(response));
+                        resolve(new SendMessageBatchResult(response));
                     }
                 });
             });

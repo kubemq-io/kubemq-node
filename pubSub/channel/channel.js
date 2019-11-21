@@ -22,43 +22,43 @@ SOFTWARE. */
 
 //Represents the instance that is responsible to send events to the kubemq.
 
-const Sender=require('../lowLevel/sender')
-const Event= require('../PubSub/lowlevel/event')
+const Sender = require('../lowLevel/sender')
+const Event = require('../PubSub/lowlevel/event')
 const ChannelParameters = require('./channelParameters')
-class Channel{
-    constructor(params){
-        this.channel_name           =    params.channel_name;
-        this.client_id              =    params.client_id;
-        this.store                  =    params.store;
-        this.sendEvent              =    this.sendEvent.bind(this)
-        this.createLowLevelEvent    =    this.createLowLevelEvent.bind(this)
-        this.sender                 =    new Sender(params.kubemq_address)
-        this.stream                 =    null
-        
+class Channel {
+    constructor(params) {
+        this.channel_name = params.channel_name;
+        this.client_id = params.client_id;
+        this.store = params.store;
+        this.sendEvent = this.sendEvent.bind(this)
+        this.createLowLevelEvent = this.createLowLevelEvent.bind(this)
+        this.sender = new Sender(params.kubemq_address)
+        this.stream = null
+
     }
     //Publish a single event to kubemq.
-    sendEvent(event){
-        return new Promise((resolve, reject) =>{    
+    sendEvent(event) {
+        return new Promise((resolve, reject) => {
             event.Channel = this.channel_name;
             event.ClientID = this.client_id;
             event.Store = this.store;
-            this.sender.sendEvent(event).then(Response=> {
+            this.sender.sendEvent(event).then(Response => {
                 resolve(Response)
             })
         })
     }
 
-    streamEvent(event_emitter){
-        event_emitter.on('message', (data)=> {
-                data.Channel = this.channel_name;
-                data.ClientID = this.client_id;
-                data.Store = this.store;
-                this.stream.write(data);
-            })
+    streamEvent(event_emitter) {
+        event_emitter.on('message', (data) => {
+            data.Channel = this.channel_name;
+            data.ClientID = this.client_id;
+            data.Store = this.store;
+            this.stream.write(data);
+        })
 
-            this.stream     =   Sender.grpc_conn.get_kubemq_client().SendEventsStream();
-    } 
+        this.stream = Sender.grpc_conn.get_kubemq_client().SendEventsStream();
+    }
 }
 
 
-module.exports =    Channel,ChannelParameters;
+module.exports = Channel, ChannelParameters;

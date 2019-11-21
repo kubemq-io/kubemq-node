@@ -31,7 +31,7 @@ class Publisher {
     * @param {string} channelName - The pub sub communication channel.
     */
     constructor(kubeMQHost, kubeMQGrpcPort, client, channelName) {
-        this.PubSub = new PubSub.PubSub(kubeMQHost, kubeMQGrpcPort, client, channelName)
+        this.PubSub = new PubSub(kubeMQHost, kubeMQGrpcPort, client, channelName)
     }
     
     /**
@@ -52,7 +52,7 @@ class Publisher {
 
 }
 
-module.exports.Publisher = Publisher;
+module.exports = Publisher;
 
 /**
  * 

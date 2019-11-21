@@ -20,19 +20,27 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE. */
 
-module.exports.stringToByte = function(body){
-    let bytes                 =	  [];
+const Queue = require('../queue/message_queue');
+const byteToString = require('../tools/stringToByte').byteToString;
 
-      for(let i = 0; i < body.length; i++) {
+let queueName = 'hello-world-queue', clientID = 'test-queue-client-id2',
+    kubeMQAddress = 'localhost:50000';
 
-          let char              =   body.charCodeAt(i);
-          bytes.push(char >>> 8);
-          bytes.push(char & 0xFF);
-      }
-      return bytes;
-}
 
-module.exports.byteToString= function(body){
-    
-    return Buffer.from(body, 'base64')
- }
+let queue = new Queue(kubeMQAddress, queueName, clientID);
+queue.receiveQueueMessages(2, 1).then(res => {
+    if (res.Error) {
+        console.log('Message enqueue error, error:' + res.message);
+    } else {
+        if (res.MessagesReceived) {
+            console.log('Received: ' + res.MessagesReceived);
+            res.Messages.forEach(element => {
+                console.log('MessageID:' + element.MessageID + ', Body:' + byteToString(element.Body));
+            });
+        } else {
+            console.log('No messages');
+        }
+    }
+}).catch(
+    err => console.log('Error:' + err));
+

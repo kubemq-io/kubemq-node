@@ -28,6 +28,14 @@ Configuration can be set by using Environment Variable:
 Set `KubeMQServerAddress` to the KubeMQ Server Address
 
 
+To use TLS you need to make sure `KubeMQCertificateFile` is filled with the correct path to the certificate file,
+If you are not using Secured connection please do not fill this env var
+
+
+To use TLS you need to make sure `KubeMQCertificateFile` is filled with the correct path to the certificate file,
+If you are not using Secured connection please do not fill this env var
+
+
 ### Configuration via code
 When setting the KubeMQ server address within the code, simply pass the address as a parameter to the various constructors.
 See exactly how in the code examples in this document.
@@ -236,6 +244,59 @@ let message_queue    =     new MessageQueue(kubemqAdd,channelName,"my-peek-queue
 
 ### Transactional Queue - Ack and reject
 ```Nodejs
+<<<<<<< HEAD
+	let channelName = "transaction-queue";
+	let kubemqAdd = "localhost:50000";
+	let message_queue = new MessageQueue(kubemqAdd, channelName, "my-transaction");
+
+
+	let transaction = message_queue.createTransaction();
+
+
+
+	function errorHandler(msg) {
+	  console.log(`Received error ${msg}`);
+	};
+	transaction.receive(100, 1, queueHandler,errorHandler);
+
+
+	function queueHandler(recm) {
+	  console.log(`Received messages ${recm}`);
+	  if (recm.StreamRequestTypeData == "ReceiveMessage") {
+
+		let msgSequence = recm.Message.Attributes.Sequence;
+		workOnMSG(recm)
+		  .then(_ => {
+			transaction.ackMessage(msgSequence)
+			  .then(_ => {
+				console.log("ack was called");
+			  }
+			  )
+		  }).catch(_ => {
+			transaction.rejectedMessage(msgSequence)
+			  .then(_ => {
+				console.log('msg was rejected');
+			  });
+		  });
+	  }
+	  else if (recm.StreamRequestTypeData === "AckMessage" || recm.StreamRequestTypeData === "RejectMessage") {
+		console.log('msg acked, stream was close');
+		transaction.closeStream();
+	  }
+
+	}
+
+	function workOnMSG(msg) {
+	  return new Promise((resolve, reject) => {
+		if (msg.Message.Attributes.Sequence !== '3') {
+		  console.log('worked on msg');
+		  resolve();
+		}
+		else {
+		  reject();
+		}
+	  });
+=======
     let channelName = "transaction-queue";
     let kubemqAdd = "localhost:50000";
     let message_queue = new MessageQueue(kubemqAdd, channelName, "my-transaction");
@@ -285,6 +346,7 @@ let message_queue    =     new MessageQueue(kubemqAdd,channelName,"my-peek-queue
           reject();
         }
       });
+>>>>>>> 87211c9... Update README.md
 ```
 
 
@@ -298,6 +360,24 @@ let message_queue    =     new MessageQueue(kubemqAdd,channelName,"my-peek-queue
 
     let transaction      =     message_queue.createTransaction();
 
+<<<<<<< HEAD
+	function queueHandler(recm) {
+		console.log(`Received messages ${recm}`);
+		if (recm.StreamRequestTypeData=="ReceiveMessage")
+		{
+		  console.log("Need more time to process, extend visibility for more 3 seconds");
+		  transaction.extendVisibility(100).then(_=> {
+			console.log(`sent extendVisibiltyRequest`);
+		  });
+		}
+	}
+	function errorHandler(msg) {
+	  console.log(`Received error ${msg}`);
+	};
+
+	  transaction.receive(5, 10,queueHandler,errorHandler);
+		
+=======
     function queueHandler(recm) {
         console.log(`Received messages ${recm}`);
         if (recm.StreamRequestTypeData=="ReceiveMessage")
@@ -312,6 +392,7 @@ let message_queue    =     new MessageQueue(kubemqAdd,channelName,"my-peek-queue
 
       transaction.receive(5, 10,queueHandler);
         
+>>>>>>> 87211c9... Update README.md
 
 ```
 
@@ -336,9 +417,12 @@ function queueHandler(recm) {
       });
     }
 }
+	function errorHandler(msg) {
+	  console.log(`Received error ${msg}`);
+	};
 
 
-  transaction.receive(5, 10,queueHandler);
+  transaction.receive(5, 10,queueHandler,errorHandler);
 ```
 
 ### Transactional Queue - Resend Modified Message
@@ -361,8 +445,11 @@ function queueHandler(recm) {
     }
 }
 
+function errorHandler(msg) {
+  console.log(`Received error ${msg}`);
+};
 
-  transaction.receive(5, 10,queueHandler);
+  transaction.receive(5, 10,queueHandler,errorHandler);
 ```
 
 ## Event

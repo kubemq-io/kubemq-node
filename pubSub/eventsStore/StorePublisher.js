@@ -31,7 +31,7 @@ class StorePublisher {
     * @param {string} channelName - The pub sub communication channel.    
     */
     constructor(kubeMQHost, kubeMQGrpcPort, client, channelName) {
-        this.PubSub = new PubSub.PubSub(kubeMQHost, kubeMQGrpcPort, client, channelName, undefined, true)
+        this.PubSub = new PubSub(kubeMQHost, kubeMQGrpcPort, client, channelName, undefined, true)
     }
 
     /**
@@ -54,5 +54,5 @@ class StorePublisher {
 
 }
 
-module.exports.StorePublisher = StorePublisher;
+module.exports = StorePublisher;
 module.exports.Event = PubSub.Event;
