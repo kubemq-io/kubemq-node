@@ -12,29 +12,36 @@ let transaction = message_queue.createTransaction();
 function queueHandler(msg) {
   console.log(`Received messages ${msg.StreamRequestTypeData}`);
   if (msg.StreamRequestTypeData == "ReceiveMessage") {
-
-    let msgSequence = msg.Message.Attributes.Sequence;
-    workOnMSG(msg)
-      .then(_ => {
-        transaction.ackMessage(msgSequence)
+      if (msg.IsError===false){
+        let msgSequence = msg.Message.Attributes.Sequence;
+        workOnMSG(msg)
           .then(_ => {
-            console.log("ack was called");
-          }
-          )
-      }).catch(_ => {
-        transaction.rejectedMessage(msgSequence)
-          .then(_ => {
-            console.log('msg was rejected');
+            transaction.ackMessage(msgSequence)
+              .then(_ => {
+                console.log("ack was called");
+              }
+              )
+          }).catch(_ => {
+            transaction.rejectedMessage(msgSequence)
+              .then(_ => {
+                console.log('msg was rejected');
+              });
           });
-      });
-  }
-  else if (msg.StreamRequestTypeData === "AckMessage" || msg.StreamRequestTypeData === "RejectMessage") {
-    transaction.closeStream();
-    console.log('msg Ack, stream was close');
- 
-    transaction = message_queue.createTransaction();
-    transaction.receive(100, 1, queueHandler)
-  }
+      }else{
+        console.log(`Received error of ${msg.Error}`);
+      }
+    }
+    else if (msg.StreamRequestTypeData === "AckMessage" || msg.StreamRequestTypeData === "RejectMessage") {
+      transaction.closeStream();
+      console.log('msg acked, stream was close');
+  
+      transaction = message_queue.createTransaction();
+      transaction.receive(100, 1, queueHandler,errorHandler)
+    }
+};
+
+function errorHandler(msg) {
+  console.log(`Received error ${msg}`);
 };
 
 function workOnMSG(msg) {
@@ -49,7 +56,7 @@ function workOnMSG(msg) {
   })
 };
 
-transaction.receive(100, 1, queueHandler)
+transaction.receive(100, 1, queueHandler,errorHandler)
 
 
 
