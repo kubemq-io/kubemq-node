@@ -32,7 +32,7 @@ class Subscriber {
    * @param {string} group - Non mandatory group for round robin subscription.
    */
     constructor(kubeMQHost, kubeMQGrpcPort, client, channelName, group) {
-        this.PubSub = new  PubSub(kubeMQHost, kubeMQGrpcPort, client, channelName, group)
+        this.PubSub = new PubSub(kubeMQHost, kubeMQGrpcPort, client, channelName, group)
     }
 
     /**

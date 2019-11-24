@@ -63,7 +63,7 @@ class PubSub{
 
 
     subscribeToEvents(req_handler,error_handler, storeProperties){       
-        subscriber  = new Subscriber.Subscriber(this.kubeMQHost.concat(':',this.kubeMQPort));
+        subscriber  = new Subscriber(this.kubeMQHost.concat(':',this.kubeMQPort));
     
         var subRequest = {
             SubscribeTypeData :   this.store  ? Subscriber.SubscribeType.EventsStore : Subscriber.SubscribeType.Events, ClientID: this.client_id ,Channel: this.channel
@@ -96,8 +96,9 @@ class StoreProperties{
     }
 }
 
-module.exports = PubSub
+module.exports = PubSub;
 
-module.exports = {Event,StoreProperties};
+module.exports.Event  = Event;
+module.exports.StoreProperties=StoreProperties;
 
 module.exports.EventStoreType = Subscriber.EventStoreType;

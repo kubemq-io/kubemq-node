@@ -129,6 +129,7 @@ let message          =     new msgQueue.Message("FirstMessage",bytes,tags);
  ### Send Message to a Queue with Expiration 
 
 ```Nodejs
+
       let bytes               =     [];
 
       for(let i = 0; i < "myQueueTestMessage".length; i++) {
@@ -154,6 +155,7 @@ let message          =     new msgQueue.Message("FirstMessage",bytes,tags);
 ### Send Message to a Queue with Delay
 
 ```Nodejs
+
       let bytes               =     [];
 
       for(let i = 0; i < "myQueueTestMessage".length; i++) {
@@ -175,12 +177,14 @@ let message          =     new msgQueue.Message("FirstMessage",bytes,tags);
             message_queue.sendQueueMessage(message).then(messageResponse =>{
               console.log(messageResponse);
               });
+
 ```
 
 
 ### Send Batch Messages
 
 ```Nodejs
+
   let channelName     =     "test-batch-queue";
         let kubemqAdd       =      "localhost:50000";
         let bytes               =     [];
@@ -205,11 +209,13 @@ let message          =     new msgQueue.Message("FirstMessage",bytes,tags);
         message_queue.sendQueueMessageBatch(messageArray).then(batchResponse =>{
             console.log(batchResponse);
         });
+
 ```
 
 ### Receive Messages from a Queue
 
 ```Nodejs
+
         let channelName     =     "test-receive-queue";
         let kubemqAdd       =      "localhost:50000";
         let message_queue    =     new MessageQueue(kubemqAdd,channelName,"my-receive-queue");
@@ -219,84 +225,37 @@ let message          =     new msgQueue.Message("FirstMessage",bytes,tags);
               console.log(element);
           });
       });
+
 ```
 
 ### Peek Messages from a Queue
 
 ```Nodejs
+
 let channelName     =     "test-peek-queue";
 let kubemqAdd       =      "localhost:50000";
 let message_queue    =     new MessageQueue(kubemqAdd,channelName,"my-peek-queue");
  message_queue.peekQueueMessage(1,1).then(peekResponse =>{
               console.log(peekResponse);
-          });     
+          }); 
+
 ```
 ### Ack All Messages In a Queue
 
 ```Nodejs
+
   let channelName     =     "test-peek-queue";
   let kubemqAdd       =       "localhost:50000";
  let message_queue    =     new MessageQueue(kubemqAdd,channelName,"my-peek-queue");
             message_queue.ackAllQueueMessages().then(ackAllResponse =>{
               console.log(ackAllResponse);
       });
+
 ```
 
 ### Transactional Queue - Ack and reject
 ```Nodejs
-<<<<<<< HEAD
-	let channelName = "transaction-queue";
-	let kubemqAdd = "localhost:50000";
-	let message_queue = new MessageQueue(kubemqAdd, channelName, "my-transaction");
 
-
-	let transaction = message_queue.createTransaction();
-
-
-
-	function errorHandler(msg) {
-	  console.log(`Received error ${msg}`);
-	};
-	transaction.receive(100, 1, queueHandler,errorHandler);
-
-
-	function queueHandler(recm) {
-	  console.log(`Received messages ${recm}`);
-	  if (recm.StreamRequestTypeData == "ReceiveMessage") {
-
-		let msgSequence = recm.Message.Attributes.Sequence;
-		workOnMSG(recm)
-		  .then(_ => {
-			transaction.ackMessage(msgSequence)
-			  .then(_ => {
-				console.log("ack was called");
-			  }
-			  )
-		  }).catch(_ => {
-			transaction.rejectedMessage(msgSequence)
-			  .then(_ => {
-				console.log('msg was rejected');
-			  });
-		  });
-	  }
-	  else if (recm.StreamRequestTypeData === "AckMessage" || recm.StreamRequestTypeData === "RejectMessage") {
-		console.log('msg acked, stream was close');
-		transaction.closeStream();
-	  }
-
-	}
-
-	function workOnMSG(msg) {
-	  return new Promise((resolve, reject) => {
-		if (msg.Message.Attributes.Sequence !== '3') {
-		  console.log('worked on msg');
-		  resolve();
-		}
-		else {
-		  reject();
-		}
-	  });
-=======
     let channelName = "transaction-queue";
     let kubemqAdd = "localhost:50000";
     let message_queue = new MessageQueue(kubemqAdd, channelName, "my-transaction");
@@ -346,13 +305,14 @@ let message_queue    =     new MessageQueue(kubemqAdd,channelName,"my-peek-queue
           reject();
         }
       });
->>>>>>> 87211c9... Update README.md
+
 ```
 
 
 ### Transactional Queue - Extend Visibility
 
 ```Nodejs
+
     let channelName = "transaction-queue";
     let kubemqAdd = "localhost:50000";
     let message_queue = new MessageQueue(kubemqAdd, channelName, "my-transaction");
@@ -360,24 +320,6 @@ let message_queue    =     new MessageQueue(kubemqAdd,channelName,"my-peek-queue
 
     let transaction      =     message_queue.createTransaction();
 
-<<<<<<< HEAD
-	function queueHandler(recm) {
-		console.log(`Received messages ${recm}`);
-		if (recm.StreamRequestTypeData=="ReceiveMessage")
-		{
-		  console.log("Need more time to process, extend visibility for more 3 seconds");
-		  transaction.extendVisibility(100).then(_=> {
-			console.log(`sent extendVisibiltyRequest`);
-		  });
-		}
-	}
-	function errorHandler(msg) {
-	  console.log(`Received error ${msg}`);
-	};
-
-	  transaction.receive(5, 10,queueHandler,errorHandler);
-		
-=======
     function queueHandler(recm) {
         console.log(`Received messages ${recm}`);
         if (recm.StreamRequestTypeData=="ReceiveMessage")
@@ -388,11 +330,7 @@ let message_queue    =     new MessageQueue(kubemqAdd,channelName,"my-peek-queue
           });
         }
     }
-
-
-      transaction.receive(5, 10,queueHandler);
-        
->>>>>>> 87211c9... Update README.md
+      transaction.receive(5, 10,queueHandler);    
 
 ```
 
@@ -421,12 +359,13 @@ function queueHandler(recm) {
 	  console.log(`Received error ${msg}`);
 	};
 
-
   transaction.receive(5, 10,queueHandler,errorHandler);
+
 ```
 
 ### Transactional Queue - Resend Modified Message
 ```Nodejs
+
 let channelName = "transaction-queue";
 let kubemqAdd = "localhost:50000";
 let message_queue = new MessageQueue(kubemqAdd, channelName, "my-resend");
@@ -450,6 +389,7 @@ function errorHandler(msg) {
 };
 
   transaction.receive(5, 10,queueHandler,errorHandler);
+
 ```
 
 ## Event
@@ -458,6 +398,7 @@ function errorHandler(msg) {
 
 #### Single event
 ```Nodejs
+
 let pub = new publish.Publisher('localhost', '50000', 'pub', 'pubsub');
 
 let event = new publish.Event(byteConverter.stringToByte('test'));
@@ -465,7 +406,6 @@ let event = new publish.Event(byteConverter.stringToByte('test'));
 pub.send(event).then(res => {
     console.log(res);
 });
-
 
 ```
 
@@ -498,13 +438,14 @@ for (let i = 1; i < 5; i++) {
   event.Channel = "test-channel";
   event.ClientID ="MyID";
   eventEmmiter.emit('message',event)
-  
 }
+
 ```
 
 ### Receiving Events
 
 ```Nodejs
+
 var subscriber = require('../pubSub/events/subscriber');
 let sub = new subscriber.Subscriber('localhost', '50000', 'sub', 'pubsub');
 
@@ -512,7 +453,6 @@ sub.subscribeToEvents(msg => {
     console.log('msg:' + String.fromCharCode.apply(null, msg.Body))
 }
     , err => { console.log('error:' + err) })
-
 
 ```
 
@@ -538,6 +478,7 @@ KubeMQ supports six types of subscriptions:
 #### Single Event Store
 
 ```Nodejs
+
 var storePublish = require('../pubSub/eventsStore/StorePublisher');
 let storePub = new storePublish.StorePublisher('localhost', '50000', 'pub', 'pubsubper');
 
@@ -547,11 +488,13 @@ eventStore.Metadata = 'test store';
 storePub.send(eventStore).then(res => {
     console.log(res);
 });
+
 ```
 
 ### Receiving Events Store
 
 ```Nodejs
+
   var storeSubscriber = require('../pubSub/eventsStore/StoreSubscriber');
 let storeSub = new storeSubscriber.StoreSubscriber('localhost', '50000', 'sub', 'pubsubper');
 
@@ -559,6 +502,7 @@ storeSub.subscribeToEvents(msg => {
     console.log('msg:' + msg.Metadata) }
     , err => { console.log('error:' + err) },
     storeSubscriber.EventStoreType.StartFromFirst);
+
 ```
 
 ## Commands
@@ -570,8 +514,8 @@ The response can be successful or not. This is the responsibility of the respond
 
 #### Receiving Commands Requests  
 ```Nodejs
-  var commandReceiver = require('../rpc/command/commandReceiver');
 
+  var commandReceiver = require('../rpc/command/commandReceiver');
 
 var cmdRes = new commandReceiver.CommandReceiver('localhost', '50000', 'cc', 'cmd');
 cmdRes.subscribe(cmd => {
@@ -585,13 +529,14 @@ cmdRes.subscribe(cmd => {
 
 }, err => {
     console.log(err);
-}
-)
+});
+
 ```
 
 ### Sending Command Request
 
 ```Nodejs
+
 var byteConv = require('../tools/stringToByte');
 
 const commandSender = require('../rpc/command/commandSender');
@@ -603,11 +548,13 @@ var request = new commandSender.CommandRequest(byteConv.stringToByte(''));
 sender.send(request).then(
   
     res => { console.log(res.Executed) });
+
 ```
 
 ### Sending Command Request Async  
 
 ```Nodejs
+
   var byteConv = require('../tools/stringToByte');
 
 const commandSender = require('../rpc/command/commandSender');
@@ -619,6 +566,7 @@ var request = new commandSender.CommandRequest(byteConv.stringToByte(''));
 sender.send(request).then(
   
     res => { console.log(res.Executed) });
+
 ```
 
 ## Queries
@@ -632,6 +580,7 @@ The response must include metadata or body together with an indication of succes
 ### Receiving Query Requests
 
 ```Nodejs
+
   var qryResClass = require('../rpc/query/queryReceiver');
 
 var byteConv = require('../tools/stringToByte');
@@ -649,8 +598,7 @@ query.subscribe(qry => {
 
 }, err => {
     console.log(err);
-}
-)
+});
 
 ```
 
@@ -663,8 +611,7 @@ var qrySend = new qrySendClass.QuerySender('localhost', '50000', 'cc1', 'qry', 1
 
 var request = new qrySendClass.QueryRequest('ff');
 
-
-
 qrySend.send(request).then(res => {
      console.log(res) });
+
 ```

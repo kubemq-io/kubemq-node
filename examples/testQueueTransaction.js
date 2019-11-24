@@ -14,16 +14,13 @@ function queueHandler(msg) {
   if (msg.StreamRequestTypeData == "ReceiveMessage") {
       if (msg.IsError===false){
         let msgSequence = msg.Message.Attributes.Sequence;
-        workOnMSG(msg)
-          .then(_ => {
-            transaction.ackMessage(msgSequence)
-              .then(_ => {
+        workOnMSG(msg).then(_ => {
+            transaction.ackMessage(msgSequence).then(_ => {
                 console.log("ack was called");
               }
               )
           }).catch(_ => {
-            transaction.rejectedMessage(msgSequence)
-              .then(_ => {
+            transaction.rejectedMessage(msgSequence).then(_ => {
                 console.log('msg was rejected');
               });
           });
@@ -33,8 +30,9 @@ function queueHandler(msg) {
     }
     else if (msg.StreamRequestTypeData === "AckMessage" || msg.StreamRequestTypeData === "RejectMessage") {
       transaction.closeStream();
-      console.log('msg acked, stream was close');
-  
+      console.log('msg Ack, stream was close');
+      
+      //loop a a long pool request.
       transaction = message_queue.createTransaction();
       transaction.receive(100, 1, queueHandler,errorHandler)
     }
@@ -53,22 +51,5 @@ function workOnMSG(msg) {
     else {
       reject();
     }
-  })
+  });
 };
-
-transaction.receive(100, 1, queueHandler,errorHandler)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
