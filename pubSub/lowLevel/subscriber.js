@@ -87,13 +87,6 @@ const  SubscribeType   ={
  
 }
 
-
-module.exports ={
-    Subscriber ,
-    EventStoreType,
-    SubscribeType
-}
-
 module.exports = Subscriber;
 module.exports.EventStoreType = EventStoreType;
 module.exports.SubscribeType = SubscribeType;
