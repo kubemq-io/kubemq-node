@@ -14,7 +14,7 @@ The SDK implements all communication patterns available through the KubeMQ serve
 - Queue
 
 
-### Installing
+### Installation
 
 The recommended way to use the SDK for Nodejs in your project is to consume it from NPM
 https://www.npmjs.com/package/kubemq-nodejs
@@ -45,8 +45,8 @@ To run the examples, you need to have a running instance of KubeMQ.
 
 ## Main Concepts.
 
-- Metadata: The metadata allows us to pass additional information with the event. Can be in any form that can be presented as a string, i.e., struct, JSON, XML and many more.
-- Body: The actual content of the event. Can be in any form that is serializable into a byte array, i.e., string, struct, JSON, XML, Collection, binary file and many more.
+- Metadata: The metadata allows us to pass additional information with the event. It can be in any form that can be presented as a string, i.e., struct, JSON, XML, and many more.
+- Body: The actual content of the event. It can be in any form that is serializable into a byte array, i.e., string, struct, JSON, XML, Collection, binary file, and many more.
 - ClientID: Displayed in logs, tracing, and KubeMQ dashboard(When using Events Store, it must be unique).
 - Tags: Set of Key value pair that help categorize the message
 
@@ -67,7 +67,7 @@ A struct that is used to initialize SubscribeToEvents/SubscribeToRequest, the Su
 
 - SubscribeType - Mandatory - Enum that represents the subscription type.
 - Events - if there is no need for Persistence.
-- EventsStore - If you want to receive Events from persistence. See Main concepts.
+- EventsStore - If you want to receive Events from persistence. See the Main concepts.
 - Command - Should be used when a response is not needed.
 - Query - Should be used when a response is needed.
 - ClientID - Mandatory - See Main concepts.
@@ -81,19 +81,19 @@ KubeMQ supports distributed durable FIFO based queues with the following core fe
 
 - Exactly One Delivery - Only one message guarantee will deliver to the subscriber.
 - Single and Batch Messages Send and Receive - Single and multiple messages in one call.
-- RPC and Stream Flow - RPC flow allows an insert and pulls messages in one call. Stream flow allows single message consuming in a transactional way.
+- RPC and Stream Flow - RPC flow allows an insert and pulls messages in one call. Streamflow allows single message consuming in a transactional way.
 - Message Policy - Each message can be configured with expiration and delay timers. Also, each message can specify a dead-letter queue for un-processed messages attempts.
 - Long Polling - Consumers can wait until a message available in the queue to consume.
 - Peak Messages - Consumers can peak into a queue without removing them from the queue.
 - Ack All Queue Messages - Any client can mark all the messages in a queue as discarded and will not be available anymore to consume.
-- Visibility timers - Consumers can pull a message from the queue and set a timer which will cause the message not be visible to other consumers. This timer can be extended as needed.
+- Visibility timers - Consumers can pull a message from the queue and set a timer, which will cause the message not to be visible to other consumers. This timer can be extended as needed.
 - Resend Messages - Consumers can send back a message they pulled to a new queue or send a modified message to the same queue for further processing.
 
 ### Send Message to a Queue
 
 ```Nodejs
 let channelName     =     "queue";
-let kubemqAdd       =	  "localhost:50000";
+let kubemqAdd       =      "localhost:50000";
 let message_queue   =     new MessageQueue(kubemqAdd,channelName,"transaction");
 
 
@@ -115,7 +115,7 @@ let message          =     new msgQueue.Message("FirstMessage",bytes,tags);
     message_queue.sendQueueMessage(message).then(messageQueueResponse =>{
         let messagesRemaining     =   messages.length;
         console.log(`finished sending batch ${messagesRemaining} messages`);
-	});
+    });
 ```    
 
  ### Send Message to a Queue with Expiration 
@@ -134,7 +134,7 @@ let message          =     new msgQueue.Message("FirstMessage",bytes,tags);
       tags[ 'key2' ] = "value2";
       
         let channelName     =     "queue";
-        let kubemqAdd       =	  "localhost:50000";
+        let kubemqAdd       =      "localhost:50000";
         let message_queue   =     new MessageQueue(kubemqAdd,channelName,"transaction");
         let message          =     new msgQueue.Message("MyQueueSendReceive",bytes,tags);
             message_queue.sendQueueMessage(message).then(messageResponse =>{
@@ -159,7 +159,7 @@ let message          =     new msgQueue.Message("FirstMessage",bytes,tags);
       tags[ 'key2' ] = "value2";
       
         let channelName     =     "queue";
-        let kubemqAdd       =	  "localhost:50000";
+        let kubemqAdd       =      "localhost:50000";
         let message_queue   =     new MessageQueue(kubemqAdd,channelName,"transaction");
 
         let message          =     new msgQueue.Message("MyQueueSendReceive",bytes,tags);
@@ -174,7 +174,7 @@ let message          =     new msgQueue.Message("FirstMessage",bytes,tags);
 
 ```Nodejs
   let channelName     =     "test-batch-queue";
-        let kubemqAdd       =	  "localhost:50000";
+        let kubemqAdd       =      "localhost:50000";
         let bytes               =     [];
         let messages_to_send    =      5;
         for(let i = 0; i < "myQueueTestMessage".length; i++) {
@@ -202,22 +202,22 @@ let message          =     new msgQueue.Message("FirstMessage",bytes,tags);
 ### Receive Messages from a Queue
 
 ```Nodejs
-		let channelName     =     "test-receive-queue";
-        let kubemqAdd       =	  "localhost:50000";
-		let message_queue    =     new MessageQueue(kubemqAdd,channelName,"my-receive-queue");
+        let channelName     =     "test-receive-queue";
+        let kubemqAdd       =      "localhost:50000";
+        let message_queue    =     new MessageQueue(kubemqAdd,channelName,"my-receive-queue");
 
-	  message_queue.receiveQueueMessages(1,2).then(receiveResponse =>{
-		  receiveResponse.Messages.forEach(element => {
-			  console.log(element);
-		  });
-	  });
+      message_queue.receiveQueueMessages(1,2).then(receiveResponse =>{
+          receiveResponse.Messages.forEach(element => {
+              console.log(element);
+          });
+      });
 ```
 
 ### Peek Messages from a Queue
 
 ```Nodejs
 let channelName     =     "test-peek-queue";
-let kubemqAdd       =	  "localhost:50000";
+let kubemqAdd       =      "localhost:50000";
 let message_queue    =     new MessageQueue(kubemqAdd,channelName,"my-peek-queue");
  message_queue.peekQueueMessage(1,1).then(peekResponse =>{
               console.log(peekResponse);
@@ -227,91 +227,91 @@ let message_queue    =     new MessageQueue(kubemqAdd,channelName,"my-peek-queue
 
 ```Nodejs
   let channelName     =     "test-peek-queue";
-  let kubemqAdd       =	   "localhost:50000";
+  let kubemqAdd       =       "localhost:50000";
  let message_queue    =     new MessageQueue(kubemqAdd,channelName,"my-peek-queue");
             message_queue.ackAllQueueMessages().then(ackAllResponse =>{
               console.log(ackAllResponse);
-	  });
+      });
 ```
 
 ### Transactional Queue - Ack and reject
 ```Nodejs
-	let channelName = "transaction-queue";
-	let kubemqAdd = "localhost:50000";
-	let message_queue = new MessageQueue(kubemqAdd, channelName, "my-transaction");
+    let channelName = "transaction-queue";
+    let kubemqAdd = "localhost:50000";
+    let message_queue = new MessageQueue(kubemqAdd, channelName, "my-transaction");
 
 
-	let transaction = message_queue.createTransaction();
+    let transaction = message_queue.createTransaction();
 
 
 
 
-	transaction.receive(100, 1, queueHandler);
+    transaction.receive(100, 1, queueHandler);
 
 
-	function queueHandler(recm) {
-	  console.log(`Received messages ${recm}`);
-	  if (recm.StreamRequestTypeData == "ReceiveMessage") {
+    function queueHandler(recm) {
+      console.log(`Received messages ${recm}`);
+      if (recm.StreamRequestTypeData == "ReceiveMessage") {
 
-		let msgSequence = recm.Message.Attributes.Sequence;
-		workOnMSG(recm)
-		  .then(_ => {
-			transaction.ackMessage(msgSequence)
-			  .then(_ => {
-				console.log("ack was called");
-			  }
-			  )
-		  }).catch(_ => {
-			transaction.rejectedMessage(msgSequence)
-			  .then(_ => {
-				console.log('msg was rejected');
-			  });
-		  });
-	  }
-	  else if (recm.StreamRequestTypeData === "AckMessage" || recm.StreamRequestTypeData === "RejectMessage") {
-		console.log('msg acked, stream was close');
-		transaction.closeStream();
-	  }
+        let msgSequence = recm.Message.Attributes.Sequence;
+        workOnMSG(recm)
+          .then(_ => {
+            transaction.ackMessage(msgSequence)
+              .then(_ => {
+                console.log("ack was called");
+              }
+              )
+          }).catch(_ => {
+            transaction.rejectedMessage(msgSequence)
+              .then(_ => {
+                console.log('msg was rejected');
+              });
+          });
+      }
+      else if (recm.StreamRequestTypeData === "AckMessage" || recm.StreamRequestTypeData === "RejectMessage") {
+        console.log('msg acked, stream was close');
+        transaction.closeStream();
+      }
 
-	}
+    }
 
-	function workOnMSG(msg) {
-	  return new Promise((resolve, reject) => {
-		if (msg.Message.Attributes.Sequence !== '3') {
-		  console.log('worked on msg');
-		  resolve();
-		}
-		else {
-		  reject();
-		}
-	  });
+    function workOnMSG(msg) {
+      return new Promise((resolve, reject) => {
+        if (msg.Message.Attributes.Sequence !== '3') {
+          console.log('worked on msg');
+          resolve();
+        }
+        else {
+          reject();
+        }
+      });
 ```
 
 
 ### Transactional Queue - Extend Visibility
 
 ```Nodejs
-	let channelName = "transaction-queue";
-	let kubemqAdd = "localhost:50000";
-	let message_queue = new MessageQueue(kubemqAdd, channelName, "my-transaction");
+    let channelName = "transaction-queue";
+    let kubemqAdd = "localhost:50000";
+    let message_queue = new MessageQueue(kubemqAdd, channelName, "my-transaction");
 
 
-	let transaction      =     message_queue.createTransaction();
+    let transaction      =     message_queue.createTransaction();
 
-	function queueHandler(recm) {
-		console.log(`Received messages ${recm}`);
-		if (recm.StreamRequestTypeData=="ReceiveMessage")
-		{
-		  console.log("Need more time to process, extend visibility for more 3 seconds");
-		  transaction.extendVisibility(100).then(_=> {
-			console.log(`sent extendVisibiltyRequest`);
-		  });
-		}
-	}
+    function queueHandler(recm) {
+        console.log(`Received messages ${recm}`);
+        if (recm.StreamRequestTypeData=="ReceiveMessage")
+        {
+          console.log("Need more time to process, extend visibility for more 3 seconds");
+          transaction.extendVisibility(100).then(_=> {
+            console.log(`sent extendVisibiltyRequest`);
+          });
+        }
+    }
 
 
-	  transaction.receive(5, 10,queueHandler);
-		
+      transaction.receive(5, 10,queueHandler);
+        
 
 ```
 
@@ -391,8 +391,8 @@ const sender          =   require('../pubSub/lowLevel/sender');
 const events          =   require('events');
 const lowLevelEvent   =   require('../pubSub/lowLevel/event')
 
-let channelName	        =	  "test-event-stream";
-let send                =	  new sender(kubemqAdd);
+let channelName            =      "test-event-stream";
+let send                =      new sender(kubemqAdd);
 let bytes = [];
 
 for (let i = 0; i < "myTestStream".length; i++) {
@@ -433,7 +433,7 @@ sub.subscribeToEvents(msg => {
 
 ### Subscription Options  
 
-KubeMQ supports 6 types of subscriptions:  
+KubeMQ supports six types of subscriptions:  
 
 - StartFromNewEvents - start event store subscription with only new events  
 
@@ -478,8 +478,8 @@ storeSub.subscribeToEvents(msg => {
 
 ### Concept
 
-Commands implement synchronous messaging pattern which the sender send a request and wait for a specific amount of time to get a response.  
-The response can be successful or not. This is the responsibility of the responder to return with the result of the command within the time the sender set in the request  
+Commands implement the synchronous messaging pattern in which the sender sends a request and waits for a specific amount of time to get a response.  
+The response can be successful or not. This is the responsibility of the responder to return with the result of the command within the time the sender set in the request.  
 
 #### Receiving Commands Requests  
 ```Nodejs
@@ -538,7 +538,7 @@ sender.send(request).then(
 
 ### Concept
 
-Queries implement synchronous messaging pattern which the sender send a request and wait for a specific amount of time to get a response.  
+Queries implement the synchronous messaging pattern in which the sender sends a request and waits for a specific amount of time to get a response.  
 
 The response must include metadata or body together with an indication of successful or not operation. This is the responsibility of the responder to return with the result of the query within the time the sender set in the request.
 
