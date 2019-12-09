@@ -20,8 +20,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE. */
 
-var CommandReceiver = require('../rpc/command/commandReceiver');
-
+const CommandReceiver = require('../rpc/command/commandReceiver');
 
 let channelName = 'testing_Command_channel', clientID = 'hello-world-sender',
     kubeMQHost = 'localhost', kubeMQGrpcPort = '50000';
@@ -35,6 +34,5 @@ receiver.subscribe(cmd => {
     }).catch(cht => console.log(cht));
 }, err => {
     console.log(err);
-}
-)
+});
 

@@ -25,8 +25,8 @@ const Sender=require('./lowLevel/sender')
 const Subscriber = require('./lowLevel/subscriber')
 const Event = require('./lowLevel/event')
 
-var subscriber;
-var sender;
+let subscriber;
+let sender;
 
 class PubSub{
     constructor(kubeMQHost, kubeMQPort, client, channelName, group, useStore=false) {
@@ -65,7 +65,7 @@ class PubSub{
     subscribeToEvents(req_handler,error_handler, storeProperties){       
         subscriber  = new Subscriber(this.kubeMQHost.concat(':',this.kubeMQPort));
     
-        var subRequest = {
+        let subRequest = {
             SubscribeTypeData :   this.store  ? Subscriber.SubscribeType.EventsStore : Subscriber.SubscribeType.Events, ClientID: this.client_id ,Channel: this.channel
         }
 

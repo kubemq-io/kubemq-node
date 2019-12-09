@@ -20,40 +20,66 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE. */
 
-//Represents the instance that is responsible to send events to the kubemq.
 
-const kubeClient = require('../../basic/grpc_client');
-class Initiator{
-    constructor(kubemq_address=null){
-        this.grpc_conn    =    new kubeClient.GrpcClient(kubemq_address);
+
+const kubeClient= require('../../basic/grpc_client')
+const EventEmitter = require('events').EventEmitter;
+
+
+/**
+ * Class represents the instance that is responsible to send events to the kubemq.
+ */
+class Responder extends EventEmitter{
+    /**
+     * 
+     * @param {string} kubeMQ_address - The Kubemq address with grpc port.
+     */
+    constructor(kubeMQ_address=null){
+        super();
+        this.grpc_conn = new kubeClient.GrpcClient(kubeMQ_address);
+        this.join=null
+        this.Stop=this.Stop.bind(this)
     }
-    //Publish a single event to kubemq.
-    sendRequest(request){
-        return new Promise((resolve, reject) =>{   
-              this.grpc_conn.get_kubemq_client().SendRequest(request, function(err, response) {
+    //Register to kubeMQ Channel using handler.
+    subscribeToRequests(subscribe_request,req_handler,error_handler){
+
+      
+        this.join = this.grpc_conn.get_kubemq_client().SubscribeToRequests(subscribe_request)
+        this.join.on("error",error_handler)
+        this.join.on("data",req_handler)
+    }
+
+    sendResponse(response){
+        return new Promise((resolve, reject) =>{
+
+        this.grpc_conn.get_kubemq_client().SendResponse(response, function(err, response) {
                 if (err) {
-                    reject(new Error(err));
+                    reject(response)
                 }else{
-                    resolve(response);
+                    resolve(resolve)
                 }
-            });
-        });
+            })
+        })
     }
 
-    //ping check connection to the kubemq.
+    Stop(){
+        console.log(`Stop was called`);
+        this.join.cancel()
+    }
+    
     ping(){
         return new Promise((resolve, reject) =>{
 
                 this.grpc_conn.get_kubemq_client().Ping({}, function(err, response) {
                 if (err) {
-                    reject (new Error(err));
+                    reject (new Error(err))
                 }else{
-                    resolve(response);
+                    resolve(response)
                 }
-            });
-        });
+            })
+        })
     }
+    
 }
 
-
-module.exports    =    Initiator;
+module.exports =Responder;

@@ -1,19 +1,20 @@
 const stringConvert = require('../tools/stringToByte');
 
-var commandReceiver = require('../rpc/command/commandReceiver');
+const CommandReceiver = require('../rpc/command/commandReceiver');
 
+const commandReceiver = new CommandReceiver('localhost', '50000', 'cc', 'cmd');
 
-var cmdRes = new commandReceiver.CommandReceiver('localhost', '50000', 'cc', 'cmd');
-cmdRes.subscribe(cmd => {
+commandReceiver.subscribe(cmd => {
     console.log(cmd);
 
-    let respond = new commandReceiver.Response(cmd);
+    let respond = new CommandReceiver.Response(cmd);
     respond.Executed = true;
-    cmdRes.sendResponse(respond).then(snd => {
+    commandReceiver.sendResponse(respond).then(snd => {
         'sent:' + snd;
-    }).catch(err => console.log(err));
+    }).catch(err => {
+        console.log(err)
+    });
 
 }, err => {
     console.log(err);
-}
-)
+});

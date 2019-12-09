@@ -22,8 +22,7 @@ SOFTWARE. */
 
 //Represents the instance that is responsible to send events to the kubemq.
 
-var kubeClient = require('../../basic/grpc_client')
-var Enum       = require('enum');
+const kubeClient = require('../../basic/grpc_client')
 //When server send a message
 
 class Subscriber{

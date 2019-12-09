@@ -22,7 +22,7 @@ SOFTWARE. */
 
 //Represents the instance that is responsible to send events to the kubemq.
 
-var kubeClient= require('../../basic/grpc_client');
+const kubeClient= require('../../basic/grpc_client');
 
 
 class Sender{

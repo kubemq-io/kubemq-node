@@ -20,16 +20,16 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE. */
 
-var stringToByte = require('../tools/stringToByte').stringToByte;
+const stringToByte = require('../tools/stringToByte').stringToByte;
 const CommandSender = require('../rpc/command/commandSender');
 
 let kubeMQHost = 'localhost', kubeMQGrpcPort = '50000',
     channelName = 'testing_Command_channel', clientID = 'hello-world-sender',
     defaultTimeOut = 10000;
 
-var sender = new CommandSender(kubeMQHost, kubeMQGrpcPort, clientID, channelName, defaultTimeOut);
+let sender = new CommandSender(kubeMQHost, kubeMQGrpcPort, clientID, channelName, defaultTimeOut);
 
-var request = new CommandSender.CommandRequest(
+let request = new CommandSender.CommandRequest(
     stringToByte(' hello kubemq - sending a command, please reply'));
 
 sender.send(request).then(

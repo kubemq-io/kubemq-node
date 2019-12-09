@@ -22,13 +22,13 @@ SOFTWARE. */
 
 
 
-var Publisher = require('../pubSub/events/publisher');
-var stringToByte = require('../tools/stringToByte').stringToByte;
+const Publisher = require('../pubSub/events/publisher');
+const stringToByte = require('../tools/stringToByte').stringToByte;
 
 let channelName = 'testing_event_channel', clientID = 'hello-world-subscriber',
     kubeMQHost = 'localhost', kubeMQGrpcPort = '50000';
 
-let publisher = new Publisher(kubeMQHost, kubeMQGrpcPort, clientID, channelName);
+const publisher = new Publisher(kubeMQHost, kubeMQGrpcPort, clientID, channelName);
 
 let event = new Publisher.Event(stringToByte('hello kubemq - sending single event'));
 

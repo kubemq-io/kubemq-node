@@ -54,8 +54,7 @@ class Channel{
     //Publish a single request to kubemq.
     sendRequest(request){
         return new Promise((resolve, reject) =>{
-           var req = Request
-
+           let req = Request;
             let low_level_request = this.createLowLevelRequest(request)
             this.Initiator.sendRequest(low_level_request).then(Response=>{
                 resolve(Response)

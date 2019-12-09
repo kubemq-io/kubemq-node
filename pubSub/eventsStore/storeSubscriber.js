@@ -59,7 +59,7 @@ class StoreSubscriber{
 
     subscribeToEvents(req_handler,error_handler, eventsStoreTypeData, eventsStoreTypeValue) {       
       
-        var eventStoreProp = PubSub.StoreProperties;        
+        let eventStoreProp = PubSub.StoreProperties;        
         eventStoreProp.EventsStoreTypeData = eventsStoreTypeData;
         eventStoreProp.EventsStoreTypeValue = eventsStoreTypeValue;
     

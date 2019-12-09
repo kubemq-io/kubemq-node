@@ -77,5 +77,5 @@ class QueryReceiver{
     }
 }
 
-module.exports.QueryReceiver = QueryReceiver;
+module.exports = QueryReceiver;
 module.exports.QueryResponse = rpc.QueryResponse.QueryResponse;

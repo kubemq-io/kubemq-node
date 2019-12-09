@@ -1,10 +1,8 @@
 
-var qrySendClass = require('../rpc/query/querySender');
-var qrySend = new qrySendClass.QuerySender('localhost', '50000', 'cc1', 'qry', 10000);
+const stringToByte = require('../tools/stringToByte').stringToByte;
+const QuerySender = require('../rpc/query/querySender');
+const qrySend = new QuerySender('localhost', '50000', 'cc1', 'qry', 10000);
 
-var request = new qrySendClass.QueryRequest('ff');
-
-
-
+let request = new QuerySender.QueryRequest(stringToByte('select books'));
 qrySend.send(request).then(res => {
      console.log(res) });

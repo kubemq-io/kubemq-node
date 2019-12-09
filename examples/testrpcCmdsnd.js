@@ -1,11 +1,9 @@
-var byteConv = require('../tools/stringToByte');
+const stringToByte = require('../tools/stringToByte').stringToByte;
+const CommandSender = require('../rpc/command/commandSender');
+const sender = new CommandSender('localhost', '50000', 'cc1', 'cmd', 10000);
 
-const commandSender = require('../rpc/command/commandSender');
+let request = new CommandSender.CommandRequest(stringToByte('test'));
 
-var sender = new commandSender.CommandSender('localhost', '50000', 'cc1', 'cmd', 10000);
-
-var request = new commandSender.CommandRequest(byteConv.stringToByte(''));
-
-sender.send(request).then(
-  
-    res => { console.log(res.Executed) });
+sender.send(request).then(res => {
+        console.log(res.Executed)
+    });

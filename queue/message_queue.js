@@ -22,13 +22,13 @@ SOFTWARE. */
 
 //Represents the instance that is responsible to send events to the kubemq.
 
-var kubeClient = require('../basic/grpc_client');
+const kubeClient = require('../basic/grpc_client');
 const SendMessageResult = require('./send_message_result')
-var id_gen = require("../tools/id_generator");
+const id_gen = require("../tools/id_generator");
 const ReceiveMessagesResponse = require('../queue/receive_messages_response')
 const SendMessageBatchResult = require('../queue/send_batch_message_result')
 const Message  = require('./message')
-var Transaction = require('./transaction')
+const Transaction = require('./transaction')
 const streamRequest = require('./stream_request_type')
 
 

@@ -20,40 +20,31 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE. */
 
-//Represents the instance that is responsible to send events to the kubemq.
+/** Class representing a Command Response to replay after the command has been executed. */
+class CommandResponse{
+    /**
+     * 
+     * @param {CommandRequest} request - The received command by CommandReceiver.
+     * @param {boolean} executed - The command execution status.
+     */
+    constructor(request, executed) {
 
-const kubeClient = require('../../basic/grpc_client');
-class Initiator{
-    constructor(kubemq_address=null){
-        this.grpc_conn    =    new kubeClient.GrpcClient(kubemq_address);
-    }
-    //Publish a single event to kubemq.
-    sendRequest(request){
-        return new Promise((resolve, reject) =>{   
-              this.grpc_conn.get_kubemq_client().SendRequest(request, function(err, response) {
-                if (err) {
-                    reject(new Error(err));
-                }else{
-                    resolve(response);
-                }
-            });
-        });
-    }
+        //Represents if the response was executed.
+        this.Executed = executed;
+        //Represents a Response identifier.
+        this.RequestID = request.RequestID;
+        //Channel name for the Response. Set and used internally by KubeMQ server.
+        this.ReplyChannel = request.ReplyChannel;
+        //Represents if the response was received from Cache.
+        this.CacheHit = request.CacheHit;
+        //Represents if the response Time.
+        this.Timestamp = request.Timestamp;
+        //Error message
+        this.Error = request.Error;
+        //Represents key value pairs that help distinguish the message
+        this.Tags = undefined;
 
-    //ping check connection to the kubemq.
-    ping(){
-        return new Promise((resolve, reject) =>{
-
-                this.grpc_conn.get_kubemq_client().Ping({}, function(err, response) {
-                if (err) {
-                    reject (new Error(err));
-                }else{
-                    resolve(response);
-                }
-            });
-        });
     }
 }
 
-
-module.exports    =    Initiator;
+module.exports = CommandResponse;
