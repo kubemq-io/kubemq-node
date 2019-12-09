@@ -42,7 +42,7 @@ class GrpcClient{
             
             let client_cert_file=configuration_loader.get_certificate_file()
             if (client_cert_file!=null){
-                let contents = fs.readFileSync(client_cert_file, 'utf8');
+                let contents = fs.readFileSync(client_cert_file);
                 let proto=proto_loader.grpc_proto.proto;
                 this._client=new proto.service.kubemq(this._kubemq_address,
                     grpc.credentials.createSsl(contents));

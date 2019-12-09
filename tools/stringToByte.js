@@ -21,15 +21,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE. */
 
 module.exports.stringToByte = function(body){
-    let bytes                 =	  [];
-
-      for(let i = 0; i < body.length; i++) {
-
-          let char              =   body.charCodeAt(i);
-          bytes.push(char >>> 8);
-          bytes.push(char & 0xFF);
-      }
-      return bytes;
+    return  Buffer.from( body, 'utf8' );
 }
 
 module.exports.byteToString= function(body){

@@ -215,7 +215,6 @@ let message          =     new msgQueue.Message("FirstMessage",bytes,tags);
 ### Receive Messages from a Queue
 
 ```Nodejs
-
         let channelName     =     "test-receive-queue";
         let kubemqAdd       =      "localhost:50000";
         let message_queue    =     new MessageQueue(kubemqAdd,channelName,"my-receive-queue");
@@ -225,7 +224,6 @@ let message          =     new msgQueue.Message("FirstMessage",bytes,tags);
               console.log(element);
           });
       });
-
 ```
 
 ### Peek Messages from a Queue
@@ -250,12 +248,10 @@ let message_queue    =     new MessageQueue(kubemqAdd,channelName,"my-peek-queue
             message_queue.ackAllQueueMessages().then(ackAllResponse =>{
               console.log(ackAllResponse);
       });
-
 ```
 
 ### Transactional Queue - Ack and reject
 ```Nodejs
-
     let channelName = "transaction-queue";
     let kubemqAdd = "localhost:50000";
     let message_queue = new MessageQueue(kubemqAdd, channelName, "my-transaction");
@@ -305,7 +301,6 @@ let message_queue    =     new MessageQueue(kubemqAdd,channelName,"my-peek-queue
           reject();
         }
       });
-
 ```
 
 
