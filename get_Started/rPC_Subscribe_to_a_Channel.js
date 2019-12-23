@@ -19,15 +19,14 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE. */
-
-const CommandReceiver = require('../rpc/command/commandReceiver');
+const kubemq = require('../kubemq');
 
 let channelName = 'testing_Command_channel', clientID = 'hello-world-sender',
     kubeMQHost = 'localhost', kubeMQGrpcPort = '50000';
 
-let receiver = new CommandReceiver(kubeMQHost, kubeMQGrpcPort, clientID, channelName);
+let receiver = new kubemq.CommandReceiver(kubeMQHost, kubeMQGrpcPort, clientID, channelName);
 receiver.subscribe(cmd => {
-    let response = new CommandReceiver.Response(cmd, true);
+    let response = new kubemq.CommandReceiver.Response(cmd, true);
     response.Timestamp = Math.floor(new Date() / 1000);
     receiver.sendResponse(response).then(snd => {
         console.log('sent:' + snd);

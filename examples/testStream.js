@@ -1,12 +1,11 @@
 
+const kubemq = require('../kubemq');
 let kubemqAdd = "localhost:50000";
 
-const sender          =   require('../pubSub/lowLevel/sender');
 const events          =   require('events');
-const lowLevelEvent   =   require('../pubSub/lowLevel/event')
 
 let channelName	        =	  "test-event-stream";
-let send                =	  new sender(kubemqAdd);
+let send                =	  new kubemq.Sender(kubemqAdd);
 let bytes = [];
 
 for (let i = 0; i < "myTestStream".length; i++) {
@@ -21,7 +20,7 @@ let eventEmmiter = new events.EventEmitter();
 send.streamEvent(eventEmmiter)
 console.log('test')
 for (let i = 1; i < 5; i++) {
-  let event= new lowLevelEvent(bytes);
+  let event= new kubemq.LowLevelEvent(bytes);
   event.Channel = channelName;
   event.ClientID ="MyID";
   eventEmmiter.emit('message',event)

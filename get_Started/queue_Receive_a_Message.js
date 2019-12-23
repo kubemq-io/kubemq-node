@@ -19,15 +19,12 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE. */
-
-const Queue = require('../queue/message_queue');
-const byteToString = require('../tools/stringToByte').byteToString;
-
+const kubemq = require('../kubemq');
 let queueName = 'hello-world-queue', clientID = 'test-queue-client-id2',
     kubeMQAddress = 'localhost:50000';
 
 
-let queue = new Queue(kubeMQAddress, queueName, clientID);
+let queue = new kubemq.Queue(kubeMQAddress, queueName, clientID);
 queue.receiveQueueMessages(2, 1).then(res => {
     if (res.Error) {
         console.log('Message enqueue error, error:' + res.message);
@@ -35,7 +32,7 @@ queue.receiveQueueMessages(2, 1).then(res => {
         if (res.MessagesReceived) {
             console.log('Received: ' + res.MessagesReceived);
             res.Messages.forEach(element => {
-                console.log('MessageID:' + element.MessageID + ', Body:' + byteToString(element.Body));
+                console.log('MessageID:' + element.MessageID + ', Body:' + kubemq.byteToString(element.Body));
             });
         } else {
             console.log('No messages');

@@ -1,8 +1,8 @@
-const MessageQueue = require('../queue/message_queue');
-const Message = require('../queue/message');
-const byteConverter = require('../tools/stringToByte').stringToByte;
+const kubemq = require('../kubemq');
 
-let message_queue = new MessageQueue('localhost:50000', 'testQueue', 'client');
+
+
+let message_queue = new kubemq.MessageQueue('localhost:50000', 'testQueue', 'client');
 
 
 

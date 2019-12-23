@@ -1,7 +1,6 @@
-const MessageQueue = require('../queue/message_queue');
-const msgQueue     = require('../queue/message');
+const kubemq = require('../kubemq');
 
-let message_queue = new MessageQueue('localhost:50000', 'testQueue', 'client');
+let message_queue = new kubemq.MessageQueue('localhost:50000', 'testQueue', 'client');
 
 
 let transaction      =     message_queue.createTransaction();
@@ -11,7 +10,7 @@ function queueHandler(msg) {
     if (msg.StreamRequestTypeData=="ReceiveMessage")
     {
       console.log("Received Message sending resend request.");
-      transaction.resend(channelName).then(_=> {
+      transaction.resend('testQueue').then(_=> {
         console.log(`sent resend`);
       });
     }

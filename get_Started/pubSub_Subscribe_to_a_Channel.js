@@ -21,17 +21,17 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE. */
 
 
-const Subscriber = require('../pubSub/events/subscriber');
-const byteToString = require('../tools/stringToByte').byteToString;
 
+
+const kubemq = require('../kubemq');
 
 let channelName = 'pubsub', clientID = 'hello-world-subscriber',
     kubeMQHost = 'localhost', kubeMQGrpcPort = '50000';
 
-let sub = new Subscriber(kubeMQHost, kubeMQGrpcPort, clientID, channelName);
+let sub = new kubemq.Subscriber(kubeMQHost, kubeMQGrpcPort, clientID, channelName);
 
 sub.subscribeToEvents(msg => {
-    console.log('Event Received: EventID:' + msg.EventID + ', Channel:' + msg.Channel + ' ,Metadata:' + msg.Metadata + ', Body:' + byteToString(msg.Body));
+    console.log('Event Received: EventID:' + msg.EventID + ', Channel:' + msg.Channel + ' ,Metadata:' + msg.Metadata + ', Body:' + kubemq.byteToString(msg.Body));
 }, err => {
     console.log('error:' + err)
 })

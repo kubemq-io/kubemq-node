@@ -19,18 +19,16 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE. */
-
-const stringToByte = require('../tools/stringToByte').stringToByte;
-const CommandSender = require('../rpc/command/commandSender');
+const kubemq = require('../kubemq');
 
 let kubeMQHost = 'localhost', kubeMQGrpcPort = '50000',
     channelName = 'testing_Command_channel', clientID = 'hello-world-sender',
     defaultTimeOut = 10000;
 
-let sender = new CommandSender(kubeMQHost, kubeMQGrpcPort, clientID, channelName, defaultTimeOut);
+let sender = new kubemq.CommandSender(kubeMQHost, kubeMQGrpcPort, clientID, channelName, defaultTimeOut);
 
-let request = new CommandSender.CommandRequest(
-    stringToByte(' hello kubemq - sending a command, please reply'));
+let request = new kubemq.CommandSender.CommandRequest(
+    kubemq.stringToByte(' hello kubemq - sending a command, please reply'));
 
 sender.send(request).then(
     res => {

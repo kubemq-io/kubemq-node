@@ -21,16 +21,14 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE. */
 
 
+const kubemq = require('../kubemq');
 
-const Publisher = require('../pubSub/events/publisher');
-const stringToByte = require('../tools/stringToByte').stringToByte;
-
-let channelName = 'testing_event_channel', clientID = 'hello-world-subscriber',
+let channelName = 'pubsub', clientID = 'hello-world-subscriber',
     kubeMQHost = 'localhost', kubeMQGrpcPort = '50000';
 
-const publisher = new Publisher(kubeMQHost, kubeMQGrpcPort, clientID, channelName);
+const publisher = new kubemq.Publisher(kubeMQHost, kubeMQGrpcPort, clientID, channelName);
 
-let event = new Publisher.Event(stringToByte('hello kubemq - sending single event'));
+let event = new kubemq.Publisher.Event(kubemq.stringToByte('hello kubemq - sending single event'));
 
 publisher.send(event).then(
     res => {
