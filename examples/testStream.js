@@ -9,7 +9,7 @@ let send                =	  new kubemq.Sender(kubemqAdd);
 let bytes = [];
 
 for (let i = 0; i < "myTestStream".length; i++) {
-  let char = "TestBody".charCodeAt(i);
+  let char = "myTestStream".charCodeAt(i);
   bytes.push(char >>> 8);
   bytes.push(char & 0xFF);
 }
