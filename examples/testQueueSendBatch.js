@@ -1,11 +1,11 @@
 const kubemq = require('../kubemq');
 
 
-const message_queue = new kubemq.MessageQueue('localhost:50000', 'testQueue', 'client');
+let message_queue = new kubemq.MessageQueue('localhost:50000', 'testQueue', 'client');
 
 let messages = [];
 for (let index = 0; index < 20; index++) {
-   messages.push(new kubemq.Message(`MyMessage:${index}`, kubemq.byteConverter(`Message body:${index}`)));
+   messages.push(new kubemq.Message(`MyMessage:${index}`, kubemq.stringToByte(`Message body:${index}`)));
 }
 
 message_queue.sendQueueMessageBatch(messages).then(res => {

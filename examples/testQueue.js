@@ -1,11 +1,10 @@
-const byteConverter = require('../tools/stringToByte').stringToByte;
 const kubemq = require('../kubemq');
 let message_queue = new kubemq.MessageQueue('localhost:50000', 'testQueue', 'client');
 
 
 let messages = [
-    new kubemq.Message('meta', byteConverter('ms1')),
-    new kubemq.Message('meta2', byteConverter('body2'))
+    new kubemq.Message('meta', kubemq.stringToByte('ms1')),
+    new kubemq.Message('meta2', kubemq.stringToByte('body2'))
 ];
 
 //1. purge the queue
