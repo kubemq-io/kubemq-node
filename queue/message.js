@@ -51,16 +51,16 @@ class Message{
     } 
 
     addExpiration(expiration){
-        this.Policy.expirationSeconds = expiration;          
+        this.Policy.ExpirationSeconds = expiration;          
     }
 
     addDelay(delay){  
-       this.Policy.delaySeconds = delay;        
+       this.Policy.DelaySeconds = delay;        
     }
 
     addMaxReceiveCount(maxReceive, maxReceiveQueueName){
-        this.Policy.maxReceiveCount = maxReceive;
-        this.Policy.maxReceiveQueue = maxReceiveQueueName;
+        this.Policy.MaxReceiveCount = maxReceive;
+        this.Policy.MaxReceiveQueue = maxReceiveQueueName;
     }
 }
 

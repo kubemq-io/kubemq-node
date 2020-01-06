@@ -28,7 +28,7 @@ let queueName = 'hello-world-queue', clientID = 'test-queue-client-id2',
 
 let queue = new kubemq.Queue(kubeMQAddress, queueName, clientID);
 let message =new kubemq.Message('metadata', kubemq.stringToByte('some-simple_queue-queue-message'))
-message.addDelay(1)
+message.addDelay(15)
 queue.sendQueueMessage(
     message)
     .then(sent => {

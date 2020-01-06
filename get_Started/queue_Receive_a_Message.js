@@ -20,12 +20,12 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE. */
 const kubemq = require('../kubemq');
-let queueName = 'hello-world-queue', clientID = 'test-queue-client-id2',
+let queueName = 'testQueue', clientID = 'test-queue-cliesnt-id2',
     kubeMQAddress = 'localhost:50000';
 
 
 let queue = new kubemq.Queue(kubeMQAddress, queueName, clientID);
-queue.receiveQueueMessages(2, 1).then(res => {
+queue.receiveQueueMessages(1, 1).then(res => {
     if (res.Error) {
         console.log('Message enqueue error, error:' + res.message);
     } else {

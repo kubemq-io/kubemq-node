@@ -132,7 +132,7 @@ class Transaction{
 
 	}
 	/**
-	 * Resend the new message to a new channel.
+	 * Resend the new message to the channel.
 	 * @param {*} p_message 
 	 */
 	modify(p_message){
