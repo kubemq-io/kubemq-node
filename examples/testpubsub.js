@@ -1,4 +1,4 @@
-const kubemq = require('kubemq-nodejs');
+const kubemq = require('../kubemq');
 
 let channelName = 'sub', clientID = 'hello-testing_event_channel-subscriber',
     kubeMQHost = 'localhost', kubeMQGrpcPort = '50000';
