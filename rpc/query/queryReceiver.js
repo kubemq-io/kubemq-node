@@ -57,7 +57,7 @@ class QueryReceiver{
      * @param {error_handler} error_handler - Callback for incoming errors.
      */
     subscribe(req_handler, error_handler) {
-        this.rpc.subscribe(req_handler, req_handler);
+        this.rpc.subscribe(req_handler, error_handler);
     }
 
     /**
