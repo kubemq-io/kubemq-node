@@ -75,7 +75,7 @@ class PubSub{
         }
 
         if(this.group !== undefined){
-            subRequest.group = this.group;
+            subRequest.Group = this.group;
         }
        
 
