@@ -1,6 +1,6 @@
 {
   "name": "kubemq-nodejs",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "The KubeMQ SDK for Nodejs enables Nodejs developers to communicate with KubeMQ server.",
   "main": "kubemq.js",
   "scripts": {
