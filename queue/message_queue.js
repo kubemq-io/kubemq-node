@@ -39,12 +39,12 @@ const streamRequest = require('./stream_request_type')
 * @param {string} client_id                            -     The publisher ID, for tracing.
 * @param {string} max_number_of_messages               -     The max number of messages to be able to send to the queue.
 * @param {string} wait_time_seconds_queue_messages     -     The wait time in seconds to receive messages from queue.
+* @param {string} encryptionHeader - Non mandatory encryption header for kubemq authorization mode
 */
 class MessageQueue{
-    constructor(kubemq_address=null,queue_name,client_id,max_number_of_messages=32,wait_time_seconds_queue_messages=1){
+    constructor(kubemq_address=null,queue_name,client_id,max_number_of_messages=32,wait_time_seconds_queue_messages=1,encryptionHeader = null){
 
-
-        this.grpc_conn                          =   new kubeClient.GrpcClient(kubemq_address);
+        this.grpc_conn                          =   new kubeClient.GrpcClient(kubemq_address,encryptionHeader);
         this.queue                              =   queue_name;
         this.client_id                          =   client_id;
         this.max_number_of_messages             =   max_number_of_messages;
@@ -52,6 +52,7 @@ class MessageQueue{
         if(kubemq_address){
             this.kubemq_address=kubemq_address;
         }
+        this.encryptionHeader = encryptionHeader;
         this.transaction   =    null;
     }
     /**
@@ -59,7 +60,7 @@ class MessageQueue{
     */
     createTransaction(){
         if(this.transaction === null || this.transaction.streamObserver===null){
-            this.transaction    =   new Transaction(this.kubemq_address,this);
+            this.transaction    =   new Transaction(this.kubemq_address,this,this.encryptionHeader);
         }       
         
         return this.transaction;
@@ -77,7 +78,7 @@ class MessageQueue{
             if(message.ClientID==null){
                 message.ClientID    =   this.client_id;
             }
-            this.grpc_conn.get_kubemq_client().SendQueueMessage(message, function(err, response) {
+            this.grpc_conn.get_kubemq_client().SendQueueMessage(message, this.grpc_conn._metadata,function(err, response) {
                     if (err) {
                         reject(new Error(err));
                     }else{
@@ -105,7 +106,7 @@ class MessageQueue{
         });
         return new Promise((resolve, reject) =>{
             let batchRequests       = new Message.convertQueueMessageBatchRequest(id,message_array);
-            this.grpc_conn.get_kubemq_client().SendQueueMessagesBatch(batchRequests, function(err, response) {
+            this.grpc_conn.get_kubemq_client().SendQueueMessagesBatch(batchRequests, this.grpc_conn._metadata,function(err, response) {
                     if (err) {
                         reject(new Error(err));
                     }else{
@@ -127,7 +128,7 @@ class MessageQueue{
         let id                      =   id_gen.get_next_id();
         let queue_messages_request  =  this.convertToReceiveQueueMessagesRequest(id,false,number_of_messages,wait_time_seconds);
         return new Promise((resolve, reject) =>{
-            this.grpc_conn.get_kubemq_client().ReceiveQueueMessages(queue_messages_request , function(err, response) {
+            this.grpc_conn.get_kubemq_client().ReceiveQueueMessages(queue_messages_request,this.grpc_conn._metadata, function(err, response) {
                 if (err) {
                     reject(new Error(err));
                 }else{
@@ -149,7 +150,7 @@ class MessageQueue{
         let id                      =   id_gen.get_next_id();
         let queue_messages_request  =  this.convertToReceiveQueueMessagesRequest(id,true,number_of_messages,wait_time_seconds);
         return new Promise((resolve, reject) =>{
-            this.grpc_conn.get_kubemq_client().ReceiveQueueMessages(queue_messages_request , function(err, response) {
+            this.grpc_conn.get_kubemq_client().ReceiveQueueMessages(queue_messages_request ,this.grpc_conn._metadata, function(err, response) {
                 if (err) {
                     reject(new Error(err));
                 }else{
@@ -165,7 +166,7 @@ class MessageQueue{
     ackAllQueueMessages(){
         let ackAllRequest  =  this.convertToAckAllQueueMessageRequest(this.wait_time_seconds_queue_messages);
         return new Promise((resolve, reject) =>{
-            this.grpc_conn.get_kubemq_client().AckAllQueueMessages(ackAllRequest , function(err, response) {
+            this.grpc_conn.get_kubemq_client().AckAllQueueMessages(ackAllRequest,this.grpc_conn._metadata , function(err, response) {
                 if (err) {
                     reject(new Error(err));
                 }else{
@@ -181,7 +182,7 @@ class MessageQueue{
     ping(){
         return new Promise((resolve, reject) =>{
 
-                this.grpc_conn.get_kubemq_client().Ping({}, function(err, response) {
+                this.grpc_conn.get_kubemq_client().Ping({},this.grpc_conn._metadata,function(err, response) {
                 if (err) {
                     reject (new Error(err));
                 }else{

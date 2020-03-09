@@ -20,18 +20,24 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE. */
 
-class ChannelParameters{
-    constructor(channel_name=null,client_id,store=null,kubemq_address=null, encryptionHeader = null){
-        //Represents The channel name to send to using the KubeMQ.
-        this.channel_name      =    channel_name;
-        //Represents the sender ID that the messages will be send under.
-        this.client_id         =    client_id;
-        //Represents the channel persistence property.
-        this.store             =    store;
-        //Represents The address of the KubeMQ server.
-        this.kubemq_address    =    kubemq_address;
-        //encryptionHeader for authorization mode on kubemq
-        this.encryptionHeader  =    encryptionHeader;
-    }
-}
-module.exports = ChannelParameters;
+const kubemq = require('../kubemq');
+let jwt_token = "eyJhbGciOiJIUzI1NiJ9.e30.tNiB_q4Qk-ox-ZrEADaLi9gJpKZ9KJUSP16uqjHAdTE";
+let queueName = 'hello-world-queue', clientID = 'test-queue-client-id2',
+    kubeMQAddress = 'localhost:50000';
+
+
+let queue = new kubemq.Queue(kubeMQAddress, queueName, clientID,32,1,jwt_token);
+let message =new kubemq.Message('metadata', kubemq.stringToByte('some-simple_queue-queue-message'))
+message.addExpiration(100)
+queue.sendQueueMessage(
+    message)
+    .then(sent => {
+        if (sent.Error) {
+            console.log('message enqueue error, error:' + err);
+        } else {
+            console.log('"message sent at:' + sent.SentAt);
+        }
+    }).catch(err => {
+        console.log('message enqueue error, error:' + err);
+    });
+

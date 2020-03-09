@@ -27,7 +27,7 @@ const QueryResponse = require('./lowLevel/queryResponse');
 
 class rpc {
 
-    constructor(kubeMQHost, kubeMQGRPCport, client, channel, type, group, defaultTimeout ) {
+    constructor(kubeMQHost, kubeMQGRPCport, client, channel, type, group, defaultTimeout ,encryptionHeader = null) {
 
         this.kubeMQHost = kubeMQHost;
         this.kubeMQport = isNaN(kubeMQGRPCport)? kubeMQGRPCport.toString() : kubeMQGRPCport ;
@@ -36,7 +36,8 @@ class rpc {
         this.client = client;
         this.type = type;
         this.group = group;
-        this.sender = new Sender(kubeMQHost.concat(':', this.kubeMQport))
+        this.encryptionHeader = encryptionHeader;
+        this.sender = new Sender(kubeMQHost.concat(':', this.kubeMQport),this.encryptionHeader)
     }
 
     send(request) {
@@ -53,7 +54,7 @@ class rpc {
     }
 
     subscribe(req_handler, error_handler) {
-        this.responder = new Responder(this.kubeMQHost.concat(':', this.kubeMQport));
+        this.responder = new Responder(this.kubeMQHost.concat(':', this.kubeMQport),this.encryptionHeader);
         let subRequest = {
             SubscribeTypeData: this.type + 2,
             ClientID: this.client,

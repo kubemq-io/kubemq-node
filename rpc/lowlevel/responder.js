@@ -33,10 +33,11 @@ class Responder extends EventEmitter{
     /**
      * 
      * @param {string} kubeMQ_address - The Kubemq address with grpc port.
+     * @param {string} encryptionHeader -   encryption header for kubemq authorization mode
      */
-    constructor(kubeMQ_address=null){
+    constructor(kubeMQ_address=null , encryptionHeader = null){
         super();
-        this.grpc_conn = new kubeClient.GrpcClient(kubeMQ_address);
+        this.grpc_conn = new kubeClient.GrpcClient(kubeMQ_address , encryptionHeader);
         this.join=null
         this.Stop=this.Stop.bind(this)
     }
@@ -44,7 +45,7 @@ class Responder extends EventEmitter{
     subscribeToRequests(subscribe_request,req_handler,error_handler){
 
       
-        this.join = this.grpc_conn.get_kubemq_client().SubscribeToRequests(subscribe_request)
+        this.join = this.grpc_conn.get_kubemq_client().SubscribeToRequests(subscribe_request,this.grpc_conn._metadata,)
         this.join.on("error",error_handler)
         this.join.on("data",req_handler)
     }
@@ -52,7 +53,7 @@ class Responder extends EventEmitter{
     sendResponse(response){
         return new Promise((resolve, reject) =>{
 
-        this.grpc_conn.get_kubemq_client().SendResponse(response, function(err, response) {
+        this.grpc_conn.get_kubemq_client().SendResponse(response,this.grpc_conn._metadata, function(err, response) {
                 if (err) {
                     reject(response)
                 }else{
@@ -70,7 +71,7 @@ class Responder extends EventEmitter{
     ping(){
         return new Promise((resolve, reject) =>{
 
-                this.grpc_conn.get_kubemq_client().Ping({}, function(err, response) {
+                this.grpc_conn.get_kubemq_client().Ping({},this.grpc_conn._metadata, function(err, response) {
                 if (err) {
                     reject (new Error(err))
                 }else{

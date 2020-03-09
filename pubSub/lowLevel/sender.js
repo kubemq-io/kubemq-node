@@ -23,15 +23,17 @@ SOFTWARE. */
 //Represents the instance that is responsible to send events to the kubemq.
 
 const kubeClient= require('../../basic/grpc_client');
+const grpc = require('grpc');
 
 
 class Sender{
     /**
      * Sender: responsible to send event to kubemq .
      * @param {string} kubemq_address   -   address to kubemq as string example:"localhost:50000".
+     * @param {string} encryptionHeader -   Non mandatory for encryption header for kubemq authorization mode
      */
-    constructor(kubemq_address=null){
-        this.grpc_conn    =   new kubeClient.GrpcClient(kubemq_address);
+    constructor(kubemq_address = null , encryptionHeader = null){
+        this.grpc_conn    =   new kubeClient.GrpcClient(kubemq_address , encryptionHeader);
         this.stream       =   null;
     }
 
@@ -45,7 +47,7 @@ class Sender{
             if(event.Body == undefined){
                     reject(new Error('event has no body'));
                 }
-                this.grpc_conn.get_kubemq_client().SendEvent(event, function(err, response) {
+                this.grpc_conn.get_kubemq_client().SendEvent(event,this.grpc_conn._metadata, function(err, response) {
                 if (err) {
                     reject (new Error(err));
                 }else{
@@ -65,14 +67,14 @@ class Sender{
                 this.stream.write(data);
             })
 
-            this.stream    =    this.grpc_conn.get_kubemq_client().SendEventsStream();
+            this.stream    =    this.grpc_conn.get_kubemq_client().SendEventsStream(this.grpc_conn._metadata);
     }
 
     //ping check connection to the kubemq.
     ping(){
         return new Promise((resolve, reject) =>{
 
-                this.grpc_conn.get_kubemq_client().Ping({}, function(err, response) {
+                this.grpc_conn.get_kubemq_client().Ping({}, this.grpc_conn._metadata,function(err, response) {
                 if (err) {
                     reject (new Error(err));
                 }else{

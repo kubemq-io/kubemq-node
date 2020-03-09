@@ -28,9 +28,10 @@ class Transaction{
 	 * 
 	 * @param {string} kubemq_address   -   The KubeMQ address full address example :"localhost:50000" (address is localhost , 50000 is port).
 	 * @param {MessageQueue} queue 		-   The KubeMQ message queue to create transaction.
+	 * @param {string} encryptionHeader -   Non mandatory encryption header for kubemq authorization mode
 	 */
-	constructor(kubemq_address=null,queue){
-		this.grpc_conn          		=   new kubeClient.GrpcClient(kubemq_address);
+	constructor(kubemq_address=null,queue,encryptionHeader = null){
+		this.grpc_conn          		=   new kubeClient.GrpcClient(kubemq_address , encryptionHeader);
 		this.queue              		=   queue;
 		this.stream             		=   false;
 		this.kubemq_address     		=   queue.get_kube;
@@ -58,7 +59,7 @@ class Transaction{
 				reject("stream already open , please call ack")
 			}
 			let message =  this.queue.createStreamQueueMessageReceiveRequest(visibility_seconds,wait_time_seconds)
-			
+
 			this.streamObserver.on("data",req_handler);
 			this.streamObserver.on("error",err_handler);
 			this.streamObserver.write(message)
@@ -153,7 +154,7 @@ class Transaction{
 	openStream(){
 		this.lock.acquire("stream",(done)=> {
 			if (this.stream == false){
-				this.streamObserver		=	this.client.StreamQueueMessage();
+				this.streamObserver		=	this.client.StreamQueueMessage(this.grpc_conn._metadata);
 				this.stream = true;
 				done();
 				return false;

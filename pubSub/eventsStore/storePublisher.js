@@ -28,10 +28,11 @@ class StorePublisher {
     * @param {string} kubeMQHost - The KubeMQ address.
     * @param {number} kubeMQGrpcPort - The KubeMQ Grpc exposed port.
     * @param {string} client - The publisher ID, for tracing.
-    * @param {string} channelName - The pub sub communication channel.    
+    * @param {string} channelName - The pub sub communication channel.   
+    * @param {string} encryptionHeader - Non mandatory for encryption header for kubemq authorization mode 
     */
-    constructor(kubeMQHost, kubeMQGrpcPort, client, channelName) {
-        this.PubSub = new PubSub(kubeMQHost, kubeMQGrpcPort, client, channelName, undefined, true)
+    constructor(kubeMQHost, kubeMQGrpcPort, client, channelName,encryptionHeader = null) {
+        this.PubSub = new PubSub(kubeMQHost, kubeMQGrpcPort, client, channelName, undefined, true , encryptionHeader)
     }
 
     /**

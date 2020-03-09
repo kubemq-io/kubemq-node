@@ -38,9 +38,9 @@ class CommandSender{
     * @param {number} defaultTimeout - The default response timeout. 
     */
 
-    constructor(kubeMQHost, kubeMQGrpcPort, client, channel, defaultTimeout)
+    constructor(kubeMQHost, kubeMQGrpcPort, client, channel, defaultTimeout,encryptionHeader = null)
     {
-        this.rpc = new rpc(kubeMQHost, kubeMQGrpcPort, client, channel, rpc.Type.Command,undefined, defaultTimeout)
+        this.rpc = new rpc(kubeMQHost, kubeMQGrpcPort, client, channel, rpc.Type.Command,undefined, defaultTimeout,encryptionHeader)
     }
 
     /**
