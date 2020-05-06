@@ -8,7 +8,7 @@ let messages = [
 ];
 
 //1. purge the queue
-message_queue.ackAllQueueMessages().then(ackAllResponse => {
+message_queue.ackAllQueueMessages().then(_ => {
     console.log("called ack all")
     //2. send batch messages
     message_queue.sendQueueMessageBatch(messages).then(messageQueueResponse => {
@@ -23,5 +23,7 @@ message_queue.ackAllQueueMessages().then(ackAllResponse => {
 
         })
     })
-})
+}).catch(err => {
+    console.log('message  ack All Queue Messages Request  error, error:' + err);
+});
 

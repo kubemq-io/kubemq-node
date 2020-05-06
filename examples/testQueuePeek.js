@@ -6,5 +6,7 @@ let message_queue   =     new kubemq.MessageQueue('localhost:50000','testQueue',
             receivedMessages.Messages.forEach(element => {               
                 console.log('peek message:'+ kubemq.byteToString(element.Body));
             })         
+}).catch(err => {
+    console.log('message  peek Queue Messages Request  error, error:' + err);
 });
 
