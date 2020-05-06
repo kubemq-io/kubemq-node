@@ -20,7 +20,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE. */
 
-//Represents the instance that is responsible to send events to the kubemq.
+//Represents the instance  that is responsible to send events to the kubemq.
 
 const kubeClient = require('../../basic/grpc_client');
 class Initiator{

@@ -10,5 +10,7 @@ for (let index = 0; index < 20; index++) {
 
 message_queue.sendQueueMessageBatch(messages).then(res => {
    console.log(res)
+}).catch(err => {
+   console.log('message send QueueMessage Batch error, error:' + err);
 });
 console.log("batch messages were sent");

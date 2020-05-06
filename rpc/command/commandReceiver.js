@@ -21,7 +21,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE. */
 
 const rpc = require('../rpc');
-const CommandResponse = require('../lowLevel/commandResponse');
+const CommandResponse = require('../lowlevel/commandResponse');
 
 /** Class representing a CommandReceiver.*/
 class CommandReceiver{

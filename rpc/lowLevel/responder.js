@@ -22,7 +22,7 @@ SOFTWARE. */
 
 
 
-const kubeClient= require('../../basic/grpc_client')
+const kubeClient   = require('../../basic/grpc_client')
 const EventEmitter = require('events').EventEmitter;
 
 

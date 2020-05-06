@@ -24,7 +24,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE. */
 
 const rpc = require('../rpc');
-const CommandRequest = require('../lowLevel/commandRequest')
+const CommandRequest = require('../lowlevel/commandRequest')
 /**
  * Class representing a Command Sender.
  */
