@@ -24,5 +24,7 @@ message_queue.ackAllQueueMessages().then(ackAllResponse => {
 
         })
     })
-})
+}).catch(err => {
+    console.log('message ack all error, error:' + err);
+});
 

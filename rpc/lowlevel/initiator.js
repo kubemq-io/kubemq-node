@@ -24,8 +24,8 @@ SOFTWARE. */
 
 const kubeClient = require('../../basic/grpc_client');
 class Initiator{
-    constructor(kubemq_address=null , encryptionHeader = null){
-        this.grpc_conn    =    new kubeClient.GrpcClient(kubemq_address , encryptionHeader);
+    constructor(kubemq_address  =    null , encryptionHeader = null){
+        this.grpc_conn          =    new kubeClient.GrpcClient(kubemq_address , encryptionHeader);
     }
     //Publish a single event to kubemq.
     sendRequest(request){

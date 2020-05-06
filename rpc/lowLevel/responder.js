@@ -34,7 +34,7 @@ class Responder extends EventEmitter{
      * 
      * @param {string} kubeMQ_address - The Kubemq address with grpc port.
      */
-    constructor(kubeMQ_address=null){
+    constructor(kubeMQ_address = null){
         super();
         this.grpc_conn = new kubeClient.GrpcClient(kubeMQ_address);
         this.join=null
