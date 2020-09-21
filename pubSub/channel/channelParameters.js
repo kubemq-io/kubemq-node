@@ -21,7 +21,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE. */
 
 class ChannelParameters{
-    constructor(channel_name=null,client_id,store=null,kubemq_address=null){
+    constructor(channel_name=null,client_id,store=null,kubemq_address=null, encryptionHeader = null){
         //Represents The channel name to send to using the KubeMQ.
         this.channel_name      =    channel_name;
         //Represents the sender ID that the messages will be send under.
@@ -30,6 +30,8 @@ class ChannelParameters{
         this.store             =    store;
         //Represents The address of the KubeMQ server.
         this.kubemq_address    =    kubemq_address;
+        //encryptionHeader for authorization mode on kubemq
+        this.encryptionHeader  =    encryptionHeader;
     }
 }
 module.exports = ChannelParameters;

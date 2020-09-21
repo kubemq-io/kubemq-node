@@ -29,15 +29,16 @@ let subscriber;
 let sender;
 
 class PubSub{
-    constructor(kubeMQHost, kubeMQPort, client, channelName, group, useStore=false) {
+    constructor(kubeMQHost, kubeMQPort, client, channelName, group, useStore=false , encryptionHeader = null) {
    
         this.kubeMQHost    =  kubeMQHost;
         this.kubeMQPort    =  isNaN(kubeMQPort)? kubeMQPort.toString() : kubeMQPort ;
         this.channel     =  channelName;
         this.client_id        =  client;
         this.store         = useStore;
-        this.group          =group;
-        sender                 =    new Sender(this.kubeMQHost.concat(':',  this.kubeMQPort))
+        this.group          = group;
+        this.encryptionHeader = encryptionHeader;
+        sender                 =    new Sender(this.kubeMQHost.concat(':',  this.kubeMQPort), this.encryptionHeader )
     }
 
 
@@ -58,12 +59,12 @@ class PubSub{
                 this.stream.write(data);
             })
 
-            this.stream     =   Sender.grpc_conn.get_kubemq_client().SendEventsStream();
+            this.stream     =   Sender.grpc_conn.get_kubemq_client().SendEventsStream(this.grpc_conn._metadata);
     }
 
 
     subscribeToEvents(req_handler,error_handler, storeProperties){       
-        subscriber  = new Subscriber(this.kubeMQHost.concat(':',this.kubeMQPort));
+        subscriber  = new Subscriber(this.kubeMQHost.concat(':',this.kubeMQPort),this.encryptionHeader);
     
         let subRequest = {
             SubscribeTypeData :   this.store  ? Subscriber.SubscribeType.EventsStore : Subscriber.SubscribeType.Events, ClientID: this.client_id ,Channel: this.channel

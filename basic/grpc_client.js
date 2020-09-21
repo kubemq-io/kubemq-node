@@ -27,11 +27,12 @@ var grpc = require('grpc');
 var fs = require('fs');
 
 class GrpcClient{
-    constructor(_kubemq_address=null){
+    constructor(_kubemq_address=null,encryptionHeader = null){
         this._init_registration.bind(this)
         this._kubemq_address=_kubemq_address
         this.get_kubemq_client.bind(this)
         this._client=null
+        this._init_registration(encryptionHeader)
     }
 
     get_kubemq_client(){
@@ -69,10 +70,10 @@ class GrpcClient{
         
     }
 
-    _init_registration(){
-        let registration_key=configuration_loader.get_registration_key()
-        if (registration_key!=null){
-            this._metadata=[("X-Kubemq-Server-Token", registration_key)]
+    _init_registration(encryptionHeader){
+        if (encryptionHeader!=null){
+            this._metadata = new grpc.Metadata();
+            this._metadata.add('authorization', encryptionHeader);
         }
     }
 }

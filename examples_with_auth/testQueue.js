@@ -1,5 +1,6 @@
 const kubemq = require('../kubemq');
-let message_queue = new kubemq.MessageQueue('localhost:50000', 'testQueue', 'client');
+let jwt_token = "eyJhbGciOiJIUzI1NiJ9.e30.tNiB_q4Qk-ox-ZrEADaLi9gJpKZ9KJUSP16uqjHAdTE";
+let message_queue = new kubemq.MessageQueue('localhost:50000', 'testQueue', 'client',32,1,jwt_token);
 
 
 let messages = [
@@ -8,7 +9,7 @@ let messages = [
 ];
 
 //1. purge the queue
-message_queue.ackAllQueueMessages().then(_ => {
+message_queue.ackAllQueueMessages().then(ackAllResponse => {
     console.log("called ack all")
     //2. send batch messages
     message_queue.sendQueueMessageBatch(messages).then(messageQueueResponse => {
@@ -24,6 +25,6 @@ message_queue.ackAllQueueMessages().then(_ => {
         })
     })
 }).catch(err => {
-    console.log('message  ack All Queue Messages Request  error, error:' + err);
+    console.log('message ack all error, error:' + err);
 });
 

@@ -20,33 +20,24 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE. */
 
-const rpc = require('../rpc');
-const QueryRequest = require('../lowlevel/queryRequest')
+const kubemq = require('../kubemq');
+let jwt_token = "eyJhbGciOiJIUzI1NiJ9.e30.tNiB_q4Qk-ox-ZrEADaLi9gJpKZ9KJUSP16uqjHAdTE";
+let queueName = 'hello-world-queue', clientID = 'test-queue-client-id2',
+    kubeMQAddress = 'localhost:50000';
 
-//** Class representing a query request sender. */
 
-class QuerySender {
-    /**
-    * 
-    * @param {string} kubeMQHost - The KubeMQ address.
-    * @param {number} kubeMQGrpcPort - The KubeMQ Grpc exposed port.
-    * @param {string} client - The publisher ID, for tracking.
-    * @param {string} channelName - The pub sub communication channel.
-    * @param {number} defaultTimeout - The default response timeout. 
-    */
-    constructor(kubeMQHost, kubeMQGRPCport, client, channelName, defaultTimeout,encryptionHeader = null) {
-        this.rpc = new rpc(kubeMQHost, kubeMQGRPCport, client, channelName, rpc.Type.Query, undefined, defaultTimeout,encryptionHeader)
-    }
+let queue = new kubemq.Queue(kubeMQAddress, queueName, clientID,32,1,jwt_token);
+let message =new kubemq.Message('metadata', kubemq.stringToByte('some-simple_queue-queue-message'))
+message.addExpiration(100)
+queue.sendQueueMessage(
+    message)
+    .then(sent => {
+        if (sent.Error) {
+            console.log('message enqueue error, error:' + err);
+        } else {
+            console.log('"message sent at:' + sent.SentAt);
+        }
+    }).catch(err => {
+        console.log('message enqueue error, error:' + err);
+    });
 
-    /**
-    * publish event.
-    * @param {QueryRequest} request - The query request.
-    */
-    send(request) {
-
-        return this.rpc.send(request);
-    }
-}
-
-module.exports.QuerySender = QuerySender;
-module.exports.QueryRequest = QueryRequest;

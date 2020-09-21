@@ -20,17 +20,17 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE. */
 
-//Represents the instance that is responsible to send events to the kubemq.
+//Represents the instance  that is responsible to send events to the kubemq.
 
 const kubeClient = require('../../basic/grpc_client');
 class Initiator{
-    constructor(kubemq_address=null){
-        this.grpc_conn    =    new kubeClient.GrpcClient(kubemq_address);
+    constructor(kubemq_address  =    null , encryptionHeader = null){
+        this.grpc_conn          =    new kubeClient.GrpcClient(kubemq_address , encryptionHeader);
     }
     //Publish a single event to kubemq.
     sendRequest(request){
         return new Promise((resolve, reject) =>{   
-              this.grpc_conn.get_kubemq_client().SendRequest(request, function(err, response) {
+              this.grpc_conn.get_kubemq_client().SendRequest(request,this.grpc_conn._metadata,function(err, response) {
                 if (err) {
                     reject(new Error(err));
                 }else{
@@ -44,7 +44,7 @@ class Initiator{
     ping(){
         return new Promise((resolve, reject) =>{
 
-                this.grpc_conn.get_kubemq_client().Ping({}, function(err, response) {
+                this.grpc_conn.get_kubemq_client().Ping({},this.grpc_conn._metadata, function(err, response) {
                 if (err) {
                     reject (new Error(err));
                 }else{
