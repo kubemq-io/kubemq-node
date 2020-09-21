@@ -1,6 +1,9 @@
 # KubeMQ Node.js
 The **KubeMQ SDK for Node.js** enables Node.js developers to communicate with [KubeMQ](https://kubemq.io/) server.
 
+Please note :
+Version 2.0 and above require the kubemq version 2
+
 ## General SDK description
 The SDK implements all communication patterns available through the KubeMQ server:
 - Events
