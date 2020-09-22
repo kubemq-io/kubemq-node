@@ -37,7 +37,7 @@ class StorePublisher {
 
     /**
     * publish event.
-    *   @param {event} event - The data to publish.
+    *   @param {Event} event - The data to publish.
     */
     send(event) {
 

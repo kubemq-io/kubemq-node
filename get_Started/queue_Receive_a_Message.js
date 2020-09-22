@@ -20,24 +20,24 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE. */
 const kubemq = require('../kubemq');
-let queueName = 'testQueue', clientID = 'test-queue-cliesnt-id2',
+let queueName = 'testQueue', clientID = 'test-queue-client-id2',
     kubeMQAddress = 'localhost:50000';
 
 
 let queue = new kubemq.Queue(kubeMQAddress, queueName, clientID);
 queue.receiveQueueMessages(1, 1).then(res => {
     if (res.Error) {
-        console.log('Message enqueue error, error:' + res.message);
+        console.log(`Message enqueue error, error:${res.message}`);
     } else {
         if (res.MessagesReceived) {
             console.log('Received: ' + res.MessagesReceived);
             res.Messages.forEach(element => {
-                console.log('MessageID:' + element.MessageID + ', Body:' + kubemq.byteToString(element.Body));
+                console.log(`MessageID:${element.MessageID}, Body:${kubemq.byteToString(element.Body)}`);
             });
         } else {
             console.log('No messages');
         }
     }
 }).catch(
-    err => console.log('Error:' + err));
+    err => console.log(`Error:${err}`));
 

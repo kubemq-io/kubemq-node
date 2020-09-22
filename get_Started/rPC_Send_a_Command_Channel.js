@@ -21,7 +21,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE. */
 const kubemq = require('../kubemq');
 
-let kubeMQHost = 'localhost', kubeMQGrpcPort = '50000',
+let kubeMQHost = 'localhost', kubeMQGrpcPort = 50000,
     channelName = 'testing_Command_channel', clientID = 'hello-world-sender',
     defaultTimeOut = 10000;
 
@@ -33,11 +33,11 @@ let request = new kubemq.CommandSender.CommandRequest(
 sender.send(request).then(
     res => {
         if (res.Error) {
-            console.log('Response error: ' + res.message);
+            console.log(`Response error: ${res.message}`);
             return;
         }
-        console.log('Response Received:' + res.RequestID + ' ExecutedAt:' + res.Timestamp);
+        console.log(`Response Received:${res.RequestID} ExecutedAt:${res.Timestamp}`);
     }).catch(
         err => {
-            console.log('command error: ' + err)
+            console.log(`command error: ${err}`)
         });

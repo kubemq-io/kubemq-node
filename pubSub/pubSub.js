@@ -21,85 +21,88 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE. */
 
 
-const Sender=require('./lowLevel/sender')
+const Sender = require('./lowLevel/sender')
 const Subscriber = require('./lowLevel/subscriber')
 const Event = require('./lowLevel/event')
 
 let subscriber;
 let sender;
 
-class PubSub{
-    constructor(kubeMQHost, kubeMQPort, client, channelName, group, useStore=false , encryptionHeader = null) {
-   
-        this.kubeMQHost    =  kubeMQHost;
-        this.kubeMQPort    =  isNaN(kubeMQPort)? kubeMQPort.toString() : kubeMQPort ;
-        this.channel     =  channelName;
-        this.client_id        =  client;
-        this.store         = useStore;
-        this.group          = group;
+class PubSub {
+    constructor(kubeMQHost, kubeMQPort, client, channelName, group, useStore = false, encryptionHeader = null) {
+
+        this.kubeMQHost = kubeMQHost;
+        this.kubeMQPort = isNaN(kubeMQPort) ? kubeMQPort.toString() : kubeMQPort;
+        this.channel = channelName;
+        this.client_id = client;
+        this.store = useStore;
+        this.group = group;
         this.encryptionHeader = encryptionHeader;
-        sender                 =    new Sender(this.kubeMQHost.concat(':',  this.kubeMQPort), this.encryptionHeader )
+        sender = new Sender(this.kubeMQHost.concat(':', this.kubeMQPort), this.encryptionHeader)
     }
 
 
-    send(event){
+    send(event) {
         event.Channel = this.channel;
         event.ClientID = this.client_id;
         event.Store = this.store;
 
-         return sender.sendEvent(event);
+        return sender.sendEvent(event);
 
     }
 
-    stream(event_emitter){
-        event_emitter.on('message', (data)=> {
+    stream(event_emitter) {
+        event_emitter.on('message', (data) => {
             data.Channel = this.channel;
             data.ClientID = this.client_id;
             data.Store = this.store;
-                this.stream.write(data);
-            })
+            this.stream.write(data);
+        })
 
-            this.stream     =   Sender.grpc_conn.get_kubemq_client().SendEventsStream(this.grpc_conn._metadata);
+        this.stream = Sender.grpc_conn.get_kubemq_client().SendEventsStream(this.grpc_conn._metadata);
     }
 
 
-    subscribeToEvents(req_handler,error_handler, storeProperties){       
-        subscriber  = new Subscriber(this.kubeMQHost.concat(':',this.kubeMQPort),this.encryptionHeader);
-    
+    subscribeToEvents(req_handler, error_handler, storeProperties) {
+        subscriber = new Subscriber(this.kubeMQHost.concat(':', this.kubeMQPort), this.encryptionHeader);
+
         let subRequest = {
-            SubscribeTypeData :   this.store  ? Subscriber.SubscribeType.EventsStore : Subscriber.SubscribeType.Events, ClientID: this.client_id ,Channel: this.channel
+            SubscribeTypeData: this.store ? Subscriber.SubscribeType.EventsStore : Subscriber.SubscribeType.Events,
+            ClientID: this.client_id,
+            Channel: this.channel
         }
 
-        if (this.store){
+        if (this.store) {
             subRequest.EventsStoreTypeData = storeProperties.EventsStoreTypeData;
             subRequest.EventsStoreTypeValue = storeProperties.EventsStoreTypeValue;
         }
 
-        if(this.group !== undefined){
+        if (this.group !== undefined) {
             subRequest.Group = this.group;
         }
-       
 
-        subscriber.subscribeToEvents(subRequest,req_handler, error_handler)
+
+        subscriber.subscribeToEvents(subRequest, req_handler, error_handler)
     }
-    unsubscribe()
-    {
-        if (subscriber!== undefined){
+
+    unsubscribe() {
+        if (subscriber !== undefined) {
             subscriber.Stop();
         }
     }
 
 }
-class StoreProperties{
-    constructor(EventsStoreTypeData=Subscriber.EventStoreType.Undefined,EventsStoreTypeValue={}){
-        this.EventsStoreTypeData       =    EventsStoreTypeData;
-        this.EventsStoreTypeValue      =    EventsStoreTypeValue;
+
+class StoreProperties {
+    constructor(EventsStoreTypeData = Subscriber.EventStoreType.Undefined, EventsStoreTypeValue = {}) {
+        this.EventsStoreTypeData = EventsStoreTypeData;
+        this.EventsStoreTypeValue = EventsStoreTypeValue;
     }
 }
 
 module.exports = PubSub;
 
-module.exports.Event  = Event;
-module.exports.StoreProperties=StoreProperties;
+module.exports.Event = Event;
+module.exports.StoreProperties = StoreProperties;
 
 module.exports.EventStoreType = Subscriber.EventStoreType;

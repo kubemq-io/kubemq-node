@@ -22,14 +22,14 @@ SOFTWARE. */
 const kubemq = require('../kubemq');
 
 let channelName = 'testing_Command_channel', clientID = 'hello-world-sender',
-    kubeMQHost = 'localhost', kubeMQGrpcPort = '50000';
+    kubeMQHost = 'localhost', kubeMQGrpcPort = 50000;
 
 let receiver = new kubemq.CommandReceiver(kubeMQHost, kubeMQGrpcPort, clientID, channelName);
 receiver.subscribe(cmd => {
     let response = new kubemq.CommandReceiver.Response(cmd, true);
     response.Timestamp = Math.floor(new Date() / 1000);
     receiver.sendResponse(response).then(snd => {
-        console.log('sent:' + snd);
+        console.log(`sent:${snd}`);
     }).catch(cht => console.log(cht));
 }, err => {
     console.log(err);

@@ -24,7 +24,7 @@ SOFTWARE. */
 class CommandRequest{
     /**
      * 
-     * @param {bytes} body - The content of the Request.
+     * @param {Uint8Array} body - The content of the Request.
      */
     constructor(body){
            

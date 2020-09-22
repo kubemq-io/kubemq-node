@@ -21,13 +21,13 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE. */
 
 /** Class representing a Command Response to replay after the command has been executed. */
-class CommandResponse{
+class CommandResponse {
     /**
-     * 
+     *
      * @param {CommandRequest} request - The received command by CommandReceiver.
      * @param {boolean} executed - The command execution status.
      */
-    constructor(request, executed) {
+    constructor(request, executed = true) {
 
         //Represents if the response was executed.
         this.Executed = executed;
