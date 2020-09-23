@@ -23,33 +23,32 @@ SOFTWARE. */
 /**
  * filled internally by kubemq.
  */
-class SendMessageResult{
-    constructor(send_message_result){
+class SendMessageResult {
+    constructor(send_message_result) {
 
         //Represents Unique identifier for the Request.
-        this.MessageID         =    send_message_result.MessageID || 0;
+        this.MessageID = send_message_result.MessageID || 0;
 
         //Represents when the message is expired.
-        this.ExpirationAt      =    send_message_result.ExpirationAt || 0;
+        this.ExpirationAt = send_message_result.ExpirationAt || 0;
 
         //Returned from KubeMQ, false if no error.
-        this.IsError           =    send_message_result.IsError;
-        if (send_message_result.SentAt){
-            this.SentAt            =    new Date(Number(send_message_result.SentAt.slice(0, 10))*1000);
-        }else{
-            this.SentAt            =    0;
+        this.IsError = send_message_result.IsError;
+        //Returned The time the message was sent to KubeMQ
+        if (send_message_result.SentAt) {
+            this.SentAt = new Date(Number(send_message_result.SentAt.slice(0, 10)) * 1000);
+        } else {
+            this.SentAt = 0;
         }
 
         //Represents if the message was delayed.
-        this.DelayedTo         =    send_message_result.DelayedTo || 0;
+        this.DelayedTo = send_message_result.DelayedTo || 0;
 
         //Error message, valid only if IsError true.
-        this.Error              =    send_message_result.Error;
+        this.Error = send_message_result.Error;
 
     }
 }
 
 
-
-
-module.exports=SendMessageResult;
+module.exports = SendMessageResult;

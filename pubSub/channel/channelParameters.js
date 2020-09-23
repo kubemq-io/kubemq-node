@@ -20,18 +20,19 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE. */
 
-class ChannelParameters{
-    constructor(channel_name=null,client_id,store=null,kubemq_address=null, encryptionHeader = null){
+class ChannelParameters {
+    constructor(channel_name = undefined, client_id, store = undefined, kubemq_address = "", encryption_header = "") {
         //Represents The channel name to send to using the KubeMQ.
-        this.channel_name      =    channel_name;
+        this.channel_name = channel_name;
         //Represents the sender ID that the messages will be send under.
-        this.client_id         =    client_id;
+        this.client_id = client_id;
         //Represents the channel persistence property.
-        this.store             =    store;
+        this.store = store;
         //Represents The address of the KubeMQ server.
-        this.kubemq_address    =    kubemq_address;
-        //encryptionHeader for authorization mode on kubemq
-        this.encryptionHeader  =    encryptionHeader;
+        this.kubemq_address = kubemq_address;
+        //encryption_header for authorization mode on kubemq
+        this.encryption_header = encryption_header;
     }
 }
+
 module.exports = ChannelParameters;

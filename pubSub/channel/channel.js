@@ -24,25 +24,27 @@ SOFTWARE. */
 
 const Sender = require('../lowLevel/sender')
 const ChannelParameters = require('./channelParameters')
+
 class Channel {
     constructor(params) {
         this.channel_name = params.channel_name;
         this.client_id = params.client_id;
         this.store = params.store;
-        this.sendEvent = this.sendEvent.bind(this)
-        this.createLowLevelEvent = this.createLowLevelEvent.bind(this)
-        this.sender = new Sender(params.kubemq_address, params.encryptionHeader)
-        this.stream = null
+        this.sendEvent = this.sendEvent.bind(this);
+        this.createLowLevelEvent = this.createLowLevelEvent.bind(this);
+        this.sender = new Sender(params.kubemq_address, params.encryption_header);
+        this.stream = null;
 
     }
+
     //Publish a single event to kubemq.
     sendEvent(event) {
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve, _) => {
             event.Channel = this.channel_name;
             event.ClientID = this.client_id;
             event.Store = this.store;
             this.sender.sendEvent(event).then(Response => {
-                resolve(Response)
+                resolve(Response);
             })
         })
     }

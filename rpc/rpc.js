@@ -27,17 +27,17 @@ const QueryResponse = require('./lowLevel/queryResponse');
 
 class rpc {
 
-    constructor(kubeMQHost, kubeMQGRPCport, client, channel, type, group, defaultTimeout ,encryptionHeader = null) {
+    constructor(kubeMQHost, kubeMQGRPCPort, client, channel, type, group, defaultTimeout, encryption_header = "") {
 
         this.kubeMQHost = kubeMQHost;
-        this.kubeMQport = isNaN(kubeMQGRPCport)? kubeMQGRPCport.toString() : kubeMQGRPCport ;
+        this.kubeMQport = isNaN(kubeMQGRPCPort) ? kubeMQGRPCPort.toString() : kubeMQGRPCPort;
         this.channel = channel;
         this.defaultTimeout = defaultTimeout;
         this.client = client;
         this.type = type;
         this.group = group;
-        this.encryptionHeader = encryptionHeader;
-        this.sender = new Sender(kubeMQHost.concat(':', this.kubeMQport),this.encryptionHeader)
+        this.encryption_header = encryption_header;
+        this.sender = new Sender(kubeMQHost.concat(':', this.kubeMQport), this.encryption_header)
     }
 
     send(request) {
@@ -50,11 +50,11 @@ class rpc {
             request.Timeout = this.defaultTimeout;
         }
 
-        return  this.sender.sendRequest(request);       
+        return this.sender.sendRequest(request);
     }
 
     subscribe(req_handler, error_handler) {
-        this.responder = new Responder(this.kubeMQHost.concat(':', this.kubeMQport),this.encryptionHeader);
+        this.responder = new Responder(this.kubeMQHost.concat(':', this.kubeMQport), this.encryption_header);
         let subRequest = {
             SubscribeTypeData: this.type + 2,
             ClientID: this.client,
@@ -66,15 +66,15 @@ class rpc {
         this.responder.subscribeToRequests(subRequest, req_handler, error_handler);
     }
 
-    unsubscribe()
-    {
-        if (this.responder!== undefined){
+    unsubscribe() {
+        if (this.responder !== undefined) {
             this.responder.Stop();
         }
     }
+
     sendResponse(response) {
         response.ClientID = this.client;
-       return this.responder.sendResponse(response);
+        return this.responder.sendResponse(response);
     }
 
 }

@@ -31,11 +31,11 @@ class CommandReceiver{
     * @param {string} client - The receiver ID, for tracing.
     * @param {string} channelName - The pub sub communication channel. 
     * @param {string} group - Non mandatory group for round robin subscription.
-    * @param {string} encryptionHeader -   encryption header for kubemq authorization mode
+    * @param {string} encryption_header -   encryption header for kubemq authorization mode
     */
-    constructor(kubeMQHost, kubeMQGrpcPort, client, channel, group,encryptionHeader = null)
+    constructor(kubeMQHost, kubeMQGrpcPort, client, channel, group,encryption_header = "")
     {
-        this.rpc = new rpc(kubeMQHost, kubeMQGrpcPort, client, channel, rpc.Type.Command,group, 1000 , encryptionHeader)
+        this.rpc = new rpc(kubeMQHost, kubeMQGrpcPort, client, channel, rpc.Type.Command,group, 1000 , encryption_header)
     }
 
      /**

@@ -21,65 +21,65 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE. */
 
 
-
-const kubeClient   = require('../../basic/grpc_client')
+const kubeClient = require('../../basic/grpc_client')
 const EventEmitter = require('events').EventEmitter;
 
 
 /**
  * Class represents the instance that is responsible to send events to the kubemq.
  */
-class Responder extends EventEmitter{
+class Responder extends EventEmitter {
     /**
-     * 
+     *
      * @param {string} kubeMQ_address - The Kubemq address with grpc port.
      */
-    constructor(kubeMQ_address = null){
+    constructor(kubeMQ_address = "", encryption_header = "") {
         super();
-        this.grpc_conn = new kubeClient.GrpcClient(kubeMQ_address);
-        this.join=null
-        this.Stop=this.Stop.bind(this)
+        this.grpc_conn = new kubeClient.GrpcClient(kubeMQ_address, encryption_header);
+        this.join = null
+        this.Stop = this.Stop.bind(this)
     }
+
     //Register to kubeMQ Channel using handler.
-    subscribeToRequests(subscribe_request,req_handler,error_handler){
+    subscribeToRequests(subscribe_request, req_handler, error_handler) {
 
-      
-        this.join = this.grpc_conn.get_kubemq_client().SubscribeToRequests(subscribe_request)
-        this.join.on("error",error_handler)
-        this.join.on("data",req_handler)
+
+        this.join = this.grpc_conn.get_kubemq_client().SubscribeToRequests(subscribe_request, this.grpc_conn._metadata,)
+        this.join.on("error", error_handler)
+        this.join.on("data", req_handler)
     }
 
-    sendResponse(response){
-        return new Promise((resolve, reject) =>{
+    sendResponse(response) {
+        return new Promise((resolve, reject) => {
 
-        this.grpc_conn.get_kubemq_client().SendResponse(response, function(err, response) {
+            this.grpc_conn.get_kubemq_client().SendResponse(response, this.grpc_conn._metadata, function (err, response) {
                 if (err) {
                     reject(response)
-                }else{
+                } else {
                     resolve(resolve)
                 }
             })
         })
     }
 
-    Stop(){
+    Stop() {
         console.log(`Stop was called`);
-        this.join.cancel()
+        this.join.cancel();
     }
-    
-    ping(){
-        return new Promise((resolve, reject) =>{
 
-                this.grpc_conn.get_kubemq_client().Ping({}, function(err, response) {
+    ping() {
+        return new Promise((resolve, reject) => {
+
+            this.grpc_conn.get_kubemq_client().Ping({}, function (err, response) {
                 if (err) {
-                    reject (new Error(err))
-                }else{
+                    reject(new Error(err))
+                } else {
                     resolve(response)
                 }
             })
         })
     }
-    
+
 }
 
-module.exports =Responder;
+module.exports = Responder;

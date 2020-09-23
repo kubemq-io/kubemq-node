@@ -23,46 +23,48 @@ SOFTWARE. */
 //Represents the instance that is responsible to send events to the kubemq.
 
 const kubeClient = require('../../basic/grpc_client')
+
 //When server send a message
 
-class Subscriber{
+class Subscriber {
     /**
-     * 
+     *
      * @param {string} kubemq_address   -   address to kubemq as string example:"localhost:50000".
-     * @param {string} encryptionHeader - Non mandatory encryption header for kubemq authorization mode
+     * @param {string} encryption_header - Non mandatory encryption header for kubemq authorization mode
      */
-    constructor(kubemq_address = null,encryptionHeader = null){
-        this.grpc_conn    =    new kubeClient.GrpcClient(kubemq_address, encryptionHeader);
-        this.join         =    null
-        this.Stop         =    this.Stop.bind(this)
+    constructor(kubemq_address = "", encryption_header = "") {
+        this.grpc_conn = new kubeClient.GrpcClient(kubemq_address, encryption_header);
+        this.join = null
+        this.Stop = this.Stop.bind(this)
     }
-    
+
     /**
-     * 
-     * @param {SubscribeRequest} subscribe_request 
-     * @param {*} req_handler 
-     * @param {*} error_handler 
+     *
+     * @param {SubscribeRequest} subscribe_request
+     * @param {*} req_handler
+     * @param {*} error_handler
      */
-    subscribeToEvents(subscribe_request,req_handler,error_handler){
-        
+    subscribeToEvents(subscribe_request, req_handler, error_handler) {
+
         //TODO Validate store
 
-        this.join    =    this.grpc_conn.get_kubemq_client().SubscribeToEvents(subscribe_request,this.grpc_conn._metadata);
-        this.join.on("data",req_handler);
-        this.join.on("error",error_handler);
+        this.join = this.grpc_conn.get_kubemq_client().SubscribeToEvents(subscribe_request, this.grpc_conn._metadata);
+        this.join.on("data", req_handler);
+        this.join.on("error", error_handler);
     }
-    Stop(){
+
+    Stop() {
 
         console.log(`Stop was called`);
         this.join.cancel();
     }
-    
-    ping(){
-        return new Promise((resolve, reject) =>{
-                this.grpc_conn.get_kubemq_client().Ping({}, this.grpc_conn._metadata,function(err, response) {
+
+    ping() {
+        return new Promise((resolve, reject) => {
+            this.grpc_conn.get_kubemq_client().Ping({}, this.grpc_conn._metadata, function (err, response) {
                 if (err) {
-                    reject (new Error(err));
-                }else{
+                    reject(new Error(err));
+                } else {
                     resolve(response);
                 }
             })
@@ -71,20 +73,20 @@ class Subscriber{
 }
 
 
-const   EventStoreType  = {
-    Undefined                :    0,
-    StartNewOnly             :    1,
-    StartFromFirst           :    2,
-    StartFromLast            :    3,
-    StartAtSequence          :    4,
-    StartAtTime              :    5,
-    StartAtTimeDelta         :    6
+const EventStoreType = {
+    Undefined: 0,
+    StartNewOnly: 1,
+    StartFromFirst: 2,
+    StartFromLast: 3,
+    StartAtSequence: 4,
+    StartAtTime: 5,
+    StartAtTimeDelta: 6
 }
 
-const  SubscribeType   ={
-    Events                   :    1,
-    EventsStore              :    2,
- 
+const SubscribeType = {
+    Events: 1,
+    EventsStore: 2,
+
 }
 
 module.exports = Subscriber;

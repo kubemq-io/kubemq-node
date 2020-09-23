@@ -21,64 +21,80 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE. */
 
 //Represents the instance that is responsible to send events to the kubemq.
-const Initiator=require('../lowLevel/initiator')
-const Request= require('../lowLevel/queryRequest')
+const Initiator = require('../lowLevel/initiator')
+const Request = require('../lowLevel/queryRequest')
 const ChannelParameters = require('./channelParameters')
 
 
-class Channel{
-    constructor(params){
-        this.channel_name               =       params.channel_name;
-        this.client_id                  =       params.client_id;
-        this.timeout                    =       params.timeout;
-        this.cache_key                  =       params.cache_key;
-        this.cache_ttl                  =       params.cache_ttl;
-        this.request_type               =       params.request_type
-        this.kubemq_address             =       params.kubemq_address;
-        this.sendEvent                  =       this.sendRequest.bind(this);   
-        
-        if (!this.channel_name){
-            throw new Error("channel_name argument is mandatory")
+class Channel {
+    constructor(params) {
+        this.channel_name = params.channel_name;
+        this.client_id = params.client_id;
+        this.timeout = params.timeout;
+        this.cache_key = params.cache_key;
+        this.cache_ttl = params.cache_ttl;
+        this.request_type = params.request_type
+        this.kubemq_address = params.kubemq_address;
+        this.sendEvent = this.sendRequest.bind(this);
+        this.fillRequest = this.fillRequest().bind(this);
+
+        if (!this.channel_name) {
+            throw new Error("channel_name argument is mandatory");
         }
 
-        if (!this.request_type){
-            throw new Error("request_type argument is mandatory")
+        if (!this.request_type) {
+            throw new Error("request_type argument is mandatory");
         }
 
-        if (!this.timeout){
-            throw new Error("timeout argument is mandatory")
+        if (!this.timeout) {
+            throw new Error("timeout argument is mandatory");
         }
-        this.Initiator= new Initiator(params.kubemq_address)
-        
+        this.Initiator = new Initiator(params.kubemq_address,params.encryption_header);
+
     }
+
     //Publish a single request to kubemq.
-    sendRequest(request){
-        return new Promise((resolve, reject) =>{
-           let req = Request;
+    sendRequest(request) {
+        return new Promise((resolve, _) => {
             let low_level_request = this.createLowLevelRequest(request)
-            this.Initiator.sendRequest(low_level_request).then(Response=>{
-                resolve(Response)
+            this.Initiator.sendRequest(low_level_request).then(Response => {
+                resolve(Response);
             })
         })
     }
 
-    createLowLevelRequest(request,override_params=null){
-        let req=new Request(request.request_id,this.request_type,this.client_id,this.channel_name,null
-            ,request.metadata,request.body,this.timeout,this.cache_key,this.cache_ttl)
-        if(override_params){
-            if(override_params.timeout){
-                req.timeout=override_params.timeout
+    createLowLevelRequest(request, override_params = null) {
+        let req = this.fillRequest(request, override_params);
+        return req;
+    }
+
+    fillRequest(request, override_params) {
+        let req = new Request(request.body);
+        if (this.timeout !== null) {
+            req.Timeout = this.timeout;
+        }
+        if (this.cache_key !== null) {
+            req.CacheKey = this.cache_key;
+        }
+        if (this.cache_ttl !== null) {
+            req.CacheTTL = this.cache_ttl;
+        }
+        if (override_params) {
+            if (override_params.timeout) {
+                req.timeout = override_params.timeout
             }
             if (override_params.cache_key) {
-                req.cache_key=override_params.cache_key
+                req.cache_key = override_params.cache_key
             }
-            if(override_params.cache_ttl){
-                req.cache_ttl=override_params.cache_ttl
+            if (override_params.cache_ttl) {
+                req.cache_ttl = override_params.cache_ttl
             }
         }
-        return req
+        return req;
+
+
     }
 }
 
 
-module.exports =Channel,ChannelParameters;
+module.exports = Channel, ChannelParameters;

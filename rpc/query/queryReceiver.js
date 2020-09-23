@@ -28,13 +28,14 @@ class QueryReceiver{
    * @param {string} kubeMQHost - The KubeMQ address.
    * @param {number} kubeMQGrpcPort - The KubeMQ Grpc exposed port.
    * @param {string} client - The publisher ID, for tracking.
-   * @param {string} channelName - The pub sub communication channel.
+   * @param {string} channel - The pub sub communication channel.
    * @param {string} group - Non mandatory group for round robin subscription.
    * @param {number} defaultTimeout - The default response timeout. 
+   * @param {string} encryption_header -   Non mandatory for encryption header for kubemq authorization mode
    */
-    constructor(kubeMQHost, kubeMQGrpcPort, client, channel, group, defaultTimeout,encryptionHeader = null)
+    constructor(kubeMQHost, kubeMQGrpcPort, client, channel, group, defaultTimeout,encryption_header = "")
     {
-        this.rpc = new rpc(kubeMQHost, kubeMQGrpcPort, client, channel, rpc.Type.Query,group, defaultTimeout,encryptionHeader)
+        this.rpc = new rpc(kubeMQHost, kubeMQGrpcPort, client, channel, rpc.Type.Query,group, defaultTimeout,encryption_header)
     }
     
     /**

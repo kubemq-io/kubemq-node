@@ -24,14 +24,14 @@ const Enum = require('enum');
 
 //StreamRequestType , What type of subscription should register under Kubemq.
 const StreamRequestType = new Enum({
-    'StreamRequestTypeUnknown'      :    0,
-    'ReceiveMessage'                :    1,
-    'AckMessage'                    :    2,
-    'RejectMessage'                 :    3,
-    'ModifyVisibility'              :    4,
-    'ResendMessage'                 :    5,
-    'SendModifiedMessage'           :    6
+    StreamRequestTypeUnknown: 0,
+    ReceiveMessage: 1,
+    AckMessage: 2,
+    RejectMessage: 3,
+    ModifyVisibility: 4,
+    ResendMessage: 5,
+    SendModifiedMessage: 6
 
 });
 
-module.exports =    StreamRequestType;
+module.exports = StreamRequestType;

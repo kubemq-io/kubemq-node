@@ -30,7 +30,7 @@ queue.receiveQueueMessages(1, 1).then(res => {
         console.log(`Message enqueue error, error:${res.message}`);
     } else {
         if (res.MessagesReceived) {
-            console.log('Received: ' + res.MessagesReceived);
+            console.log(`Received: ${res.MessagesReceived}`);
             res.Messages.forEach(element => {
                 console.log(`MessageID:${element.MessageID}, Body:${kubemq.byteToString(element.Body)}`);
             });

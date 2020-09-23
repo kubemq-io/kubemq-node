@@ -38,6 +38,6 @@ sender.send(request).then(
         }
         console.log(`Response Received:${res.RequestID} ExecutedAt:${res.Timestamp}`);
     }).catch(
-        err => {
-            console.log(`command error: ${err}`)
-        });
+    err => {
+        console.log(`command error: ${err}`)
+    });

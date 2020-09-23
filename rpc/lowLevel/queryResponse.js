@@ -21,37 +21,36 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE. */
 
 /** Class representing a Query Response after execution to the querySender. */
-class QueryResponse{
-   /**
-     * 
+class QueryResponse {
+    /**
+     *
      * @param {QueryRequest} request - The received query by QueryReceiver.
      * @param {bytes} Body - The query result body.
+     * @param {boolean} executed - if the request was executed (default of true).
      */
-    constructor(request, Body) {
+    constructor(request, Body, executed = true) {
 
         //Channel name for the Response. Set and used internally by KubeMQ server.
-        this.ReplyChannel  =  request.ReplyChannel;
-         //Represents if the response Time.
-        this.Timestamp     =  request.Timestamp;
-        //Represents a Response identifier.
-        this.RequestID     =  request.RequestID;  
+        this.ReplyChannel = request.ReplyChannel;
         //Represents if the response Time.
-        this.Timestamp     =  request.Timestamp;
+        this.Timestamp = request.Timestamp;
+        //Represents a Response identifier.
+        this.RequestID = request.RequestID;
         //Represent if the response was from cache, filled by KubeMQ.
-        this.CacheHit      =  request.CacheHit;  
-        //Represents if the response was received from Cache.
-        this.CacheHit      =  request.CacheHit;
+        this.CacheHit = request.CacheHit;
         //Represents if the response was executed.
-        this.Executed      =  true;
+        this.Executed = executed;
         //Error message
-        this.Error         =  request.Error;
+        this.Error = request.Error;
         //Represents key value pairs that help distinguish the message
-        this.Tags          =  undefined;       
+        this.Tags = request.Tags;
         //Represent the query result body.
-        this.Body          =  Body;
-        
-        }
+        this.Body = Body;
+        //Represent the Response metadata
+        this.Metadata = request.Metadata;
 
     }
 
-    module.exports.QueryResponse = QueryResponse;
+}
+
+module.exports.QueryResponse = QueryResponse;

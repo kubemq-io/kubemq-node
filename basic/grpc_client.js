@@ -20,36 +20,35 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE. */
 
-var configuration_loader= require('./configuration_loader')
-var proto_loader = require('../protos/proto_setup')
-var grpc = require('grpc');
-// var grpc= require('grpc')
-var fs = require('fs');
+const configuration_loader = require('./configuration_loader');
+const proto_loader = require('../protos/proto_setup')
+const grpc = require('grpc');
+const fs = require('fs');
 
-class GrpcClient{
-    constructor(_kubemq_address=null,encryptionHeader = null){
+class GrpcClient {
+    constructor(_kubemq_address = "", encryption_header = "") {
         this._init_registration.bind(this)
-        this._kubemq_address=_kubemq_address
+        this._kubemq_address = _kubemq_address
         this.get_kubemq_client.bind(this)
-        this._client=null
-        this._init_registration(encryptionHeader)
+        this._client = null
+        this._init_registration(encryption_header)
     }
 
-    get_kubemq_client(){
-        if (this._client ===null){
-            if(this._kubemq_address===null){
-                this._kubemq_address=this.get_kubemq_address()
+    get_kubemq_client() {
+        if (this._client === null) {
+            if (this._kubemq_address === "") {
+                this._kubemq_address = this.get_kubemq_address()
             }
-            
-            let client_cert_file=configuration_loader.get_certificate_file()
-            if (client_cert_file!=null){
+
+            let client_cert_file = configuration_loader.get_certificate_file()
+            if (client_cert_file != null) {
                 let contents = fs.readFileSync(client_cert_file);
-                let proto=proto_loader.grpc_proto.proto;
-                this._client=new proto.service.kubemq(this._kubemq_address,
+                let proto = proto_loader.grpc_proto.proto;
+                this._client = new proto.service.kubemq(this._kubemq_address,
                     grpc.credentials.createSsl(contents));
-            }else{
-                let proto=proto_loader.grpc_proto.proto;
-                this._client=new proto.service.kubemq(this._kubemq_address,
+            } else {
+                let proto = proto_loader.grpc_proto.proto;
+                this._client = new proto.service.kubemq(this._kubemq_address,
                     grpc.credentials.createInsecure());
             }
         }
@@ -57,25 +56,25 @@ class GrpcClient{
     }
 
 
-    get_kubemq_address(){
-        if(this._kubemq_address!=null){
+    get_kubemq_address() {
+        if (this._kubemq_address !== "") {
             return this._kubemq_address
         }
 
-        this._kubemq_address=configuration_loader.get_server_address()
-        if (this._kubemq_address ===null){
+        this._kubemq_address = configuration_loader.get_server_address()
+        if (this._kubemq_address === "") {
             throw "Server Address was not supplied"
         }
         return this._kubemq_address
-        
+
     }
 
-    _init_registration(encryptionHeader){
-        if (encryptionHeader!=null){
+    _init_registration(encryption_header) {
+        if (encryption_header !== "") {
             this._metadata = new grpc.Metadata();
-            this._metadata.add('authorization', encryptionHeader);
+            this._metadata.add('authorization', encryption_header);
         }
     }
 }
 
-module.exports ={GrpcClient};
+module.exports = {GrpcClient};

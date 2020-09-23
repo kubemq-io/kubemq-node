@@ -35,5 +35,5 @@ publisher.send(event).then(
         console.log(res);
     }).catch(
     err => {
-        console.log('error sending' + err)
+        console.log(`error sending${err}`)
     });

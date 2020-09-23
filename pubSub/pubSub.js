@@ -29,7 +29,7 @@ let subscriber;
 let sender;
 
 class PubSub {
-    constructor(kubeMQHost, kubeMQPort, client, channelName, group, useStore = false, encryptionHeader = null) {
+    constructor(kubeMQHost, kubeMQPort, client, channelName, group, useStore = false, encryption_header = "") {
 
         this.kubeMQHost = kubeMQHost;
         this.kubeMQPort = isNaN(kubeMQPort) ? kubeMQPort.toString() : kubeMQPort;
@@ -37,8 +37,8 @@ class PubSub {
         this.client_id = client;
         this.store = useStore;
         this.group = group;
-        this.encryptionHeader = encryptionHeader;
-        sender = new Sender(this.kubeMQHost.concat(':', this.kubeMQPort), this.encryptionHeader)
+        this.encryption_header = encryption_header;
+        sender = new Sender(this.kubeMQHost.concat(':', this.kubeMQPort), this.encryption_header)
     }
 
 
@@ -64,7 +64,7 @@ class PubSub {
 
 
     subscribeToEvents(req_handler, error_handler, storeProperties) {
-        subscriber = new Subscriber(this.kubeMQHost.concat(':', this.kubeMQPort), this.encryptionHeader);
+        subscriber = new Subscriber(this.kubeMQHost.concat(':', this.kubeMQPort), this.encryption_header);
 
         let subRequest = {
             SubscribeTypeData: this.store ? Subscriber.SubscribeType.EventsStore : Subscriber.SubscribeType.Events,

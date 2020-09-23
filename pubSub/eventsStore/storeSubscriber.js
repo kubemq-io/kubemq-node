@@ -21,22 +21,23 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE. */
 
 const PubSub = require('../pubSub')
-  /** Class representing an event with persistent storage pattern subscriber. */
-class StoreSubscriber{
+
+/** Class representing an event with persistent storage pattern subscriber. */
+class StoreSubscriber {
     /**
-   * Create a persistent event store Subscriber.
-   * @param {string} kubeMQHost - The KubeMQ address.
-   * @param {number} kubeMQGrpcPort - The KubeMQ Grpc exposed port.
-   * @param {string} client - The publisher ID, for tracing.
-   * @param {string} channelName - The pub sub communication channel.
-   * @param {string} group - Non mandatory group for round robin subscription.
-   * @param {string} encryptionHeader - Non mandatory for encryption header for kubemq authorization mode 
-   */
-    constructor(kubeMQHost, kubeMQGrpcPort, client, channelName, group,encryptionHeader = null) {
-        this.pubSub = new PubSub(kubeMQHost, kubeMQGrpcPort, client, channelName, group, true,encryptionHeader)
+     * Create a persistent event store Subscriber.
+     * @param {string} kubeMQHost - The KubeMQ address.
+     * @param {number} kubeMQGrpcPort - The KubeMQ Grpc exposed port.
+     * @param {string} client - The publisher ID, for tracing.
+     * @param {string} channelName - The pub sub communication channel.
+     * @param {string} group - Non mandatory group for round robin subscription.
+     * @param {string} encryption_header - Non mandatory for encryption header for kubemq authorization mode
+     */
+    constructor(kubeMQHost, kubeMQGrpcPort, client, channelName, group = "", encryption_header = "") {
+        this.pubSub = new PubSub(kubeMQHost, kubeMQGrpcPort, client, channelName, group, true, encryption_header)
     }
 
-     /**
+    /**
      * Callback for incoming events.
      *
      * @callback req_handler
@@ -44,11 +45,11 @@ class StoreSubscriber{
      */
 
     /**
-    * Callback for incoming errors.
-    *
-    * @callback error_handler
-    * @param {string} err - receive error.
-    */
+     * Callback for incoming errors.
+     *
+     * @callback error_handler
+     * @param {string} err - receive error.
+     */
 
     /**
      * Subscribe to streaming events
@@ -58,22 +59,21 @@ class StoreSubscriber{
      * @param {string} eventsStoreTypeValue - Value of eventsStoreTypeData.
      */
 
-    subscribeToEvents(req_handler,error_handler, eventsStoreTypeData, eventsStoreTypeValue) {       
-      
-        let eventStoreProp = PubSub.StoreProperties;        
+    subscribeToEvents(req_handler, error_handler, eventsStoreTypeData, eventsStoreTypeValue) {
+
+        let eventStoreProp = PubSub.StoreProperties;
         eventStoreProp.EventsStoreTypeData = eventsStoreTypeData;
         eventStoreProp.EventsStoreTypeValue = eventsStoreTypeValue;
-    
-        return this.pubSub.subscribeToEvents(req_handler,error_handler,eventStoreProp)
+
+        return this.pubSub.subscribeToEvents(req_handler, error_handler, eventStoreProp)
 
     }
 
     /**
      * Unsubscribe to streaming events
      */
-    unsubscribe()
-    {
-       this.pubSub.unsubscribe();
+    unsubscribe() {
+        this.pubSub.unsubscribe();
     }
 
 }

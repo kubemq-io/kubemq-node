@@ -25,32 +25,33 @@ var _key = null
 var _cert = null
 
 function get_server_address() {
-    if (_path!=null){
+    if (_path != null) {
         return _path
     }
-    _path=process.env.KubeMQServerAddress
+    _path = process.env.KubeMQServerAddress
     return _path
 }
 
 
 function get_registration_key() {
-    if (_key!=null){
+    if (_key != null) {
         return _key
     }
-    _key=process.env.KubeMQRegistrationKey
+    _key = process.env.KubeMQRegistrationKey
     return _key
 
 }
 
-function get_certificate_file (){
-    if (_cert!=null){
+function get_certificate_file() {
+    if (_cert != null) {
         return _cert
     }
-    _cert=process.env.KubeMQCertificateFile
+    _cert = process.env.KubeMQCertificateFile
     return _cert
 }
+
 module.exports = {
     get_server_address: get_server_address,
-    get_registration_key:get_registration_key,
-    get_certificate_file:get_certificate_file
+    get_registration_key: get_registration_key,
+    get_certificate_file: get_certificate_file
 };

@@ -27,21 +27,22 @@ const QueryRequest = require('../lowlevel/queryRequest')
 
 class QuerySender {
     /**
-    * 
-    * @param {string} kubeMQHost - The KubeMQ address.
-    * @param {number} kubeMQGrpcPort - The KubeMQ Grpc exposed port.
-    * @param {string} client - The publisher ID, for tracking.
-    * @param {string} channelName - The pub sub communication channel.
-    * @param {number} defaultTimeout - The default response timeout. 
-    */
-    constructor(kubeMQHost, kubeMQGRPCport, client, channelName, defaultTimeout,encryptionHeader = null) {
-        this.rpc = new rpc(kubeMQHost, kubeMQGRPCport, client, channelName, rpc.Type.Query, undefined, defaultTimeout,encryptionHeader)
+     *
+     * @param {string} kubeMQHost - The KubeMQ address.
+     * @param {number} kubeMQGRPCPort - The KubeMQ Grpc exposed port.
+     * @param {string} client - The publisher ID, for tracking.
+     * @param {string} channelName - The pub sub communication channel.
+     * @param {number} defaultTimeout - The default response timeout.
+     * @param {string} encryption_header - Non mandatory for encryption header for kubemq authorization mode.
+     */
+    constructor(kubeMQHost, kubeMQGRPCPort, client, channelName, defaultTimeout, encryption_header = "") {
+        this.rpc = new rpc(kubeMQHost, kubeMQGRPCPort, client, channelName, rpc.Type.Query, undefined, defaultTimeout, encryption_header)
     }
 
     /**
-    * publish event.
-    * @param {QueryRequest} request - The query request.
-    */
+     * publish event.
+     * @param {QueryRequest} request - The query request.
+     */
     send(request) {
 
         return this.rpc.send(request);

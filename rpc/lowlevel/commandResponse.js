@@ -25,7 +25,7 @@ class CommandResponse {
     /**
      *
      * @param {CommandRequest} request - The received command by CommandReceiver.
-     * @param {boolean} executed - The command execution status.
+     * @param {boolean} executed - The command execution status (default true).
      */
     constructor(request, executed = true) {
 
