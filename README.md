@@ -233,7 +233,7 @@ transaction.receive(100, 1, queueHandler, errorHandler)
 
 function queueHandler(msg) {
   console.log(`Received messages ${msg.StreamRequestTypeData}`);
-  if (msg.StreamRequestTypeData == 'ReceiveMessage') {
+  if (msg.StreamRequestTypeData === 'ReceiveMessage') {
     if (msg.IsError === false) {
       let msgSequence = msg.Message.Attributes.Sequence;
       workOnMSG(msg).then(_ => {
@@ -283,7 +283,7 @@ let transaction = message_queue.createTransaction();
 
 function queueHandler(msg) {
   console.log(`Received messages ${msg.StreamRequestTypeData}`);
-  if (msg.StreamRequestTypeData == 'ReceiveMessage') {
+  if (msg.StreamRequestTypeData === 'ReceiveMessage') {
     console.log('Need more time to process, extend visibility for more 3 seconds');
     transaction.extendVisibility(3).then(_ => {
       console.log(`sent extendVisibilityRequest`);
@@ -305,7 +305,7 @@ let transaction = message_queue.createTransaction();
 
 function queueHandler(msg) {
   console.log(`Received messages ${msg}`);
-  if (msg.StreamRequestTypeData == 'ReceiveMessage') {
+  if (msg.StreamRequestTypeData === 'ReceiveMessage') {
     console.log('Received Message sending resend request.');
     transaction.resend('testQueue').then(_ => {
       console.log(`sent resend`);

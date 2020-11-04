@@ -1,7 +1,7 @@
 const kubemq = require('../kubemq');
 let jwt_token = "eyJhbGciOiJIUzI1NiJ9.e30.tNiB_q4Qk-ox-ZrEADaLi9gJpKZ9KJUSP16uqjHAdTE";
 let channelName = 'sub', clientID = 'hello-testing_event_channel-subscriber',
-    kubeMQHost = 'localhost', kubeMQGrpcPort = '50000';
+    kubeMQHost = 'localhost', kubeMQGrpcPort = 50000;
 
 let sub = new kubemq.Subscriber(kubeMQHost, kubeMQGrpcPort, clientID, channelName,undefined,jwt_token);
 

@@ -22,7 +22,7 @@ SOFTWARE. */
 const kubemq = require('../kubemq');
 
 let channelName = 'testing_Command_channel', clientID = 'hello-world-sender',
-    kubeMQHost = 'localhost', kubeMQGrpcPort = '50000';
+    kubeMQHost = 'localhost', kubeMQGrpcPort = 50000;
 
 let receiver = new kubemq.CommandReceiver(kubeMQHost, kubeMQGrpcPort, clientID, channelName);
 receiver.subscribe(cmd => {

@@ -24,7 +24,7 @@ SOFTWARE. */
 const kubemq = require('../kubemq');
 
 let channelName = 'pubsub', clientID = 'hello-world-subscriber',
-    kubeMQHost = 'localhost', kubeMQGrpcPort = '50000';
+    kubeMQHost = 'localhost', kubeMQGrpcPort = 50000;
 
 const publisher = new kubemq.Publisher(kubeMQHost, kubeMQGrpcPort, clientID, channelName);
 

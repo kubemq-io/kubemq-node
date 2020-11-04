@@ -11,7 +11,7 @@ transaction.receive(100, 1, queueHandler, errorHandler)
 
 function queueHandler(msg) {
   console.log(`Received messages ${msg.StreamRequestTypeData}`);
-  if (msg.StreamRequestTypeData == "ReceiveMessage") {
+  if (msg.StreamRequestTypeData === "ReceiveMessage") {
     if (msg.IsError === false) {
       let msgSequence = msg.Message.Attributes.Sequence;
       workOnMSG(msg).then(_ => {
