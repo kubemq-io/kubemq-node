@@ -32,7 +32,7 @@ class Subscriber{
      * @param {string} encryptionHeader - Non mandatory encryption header for kubemq authorization mode
      */
     constructor(kubeMQ_address = "",encryptionHeader = ""){
-        this.grpc_conn    =    new kubeClient.GrpcClient(kubemq_address, encryptionHeader);
+        this.grpc_conn    =    new kubeClient.GrpcClient(kubeMQ_address, encryptionHeader);
         this.join         =    null
         this.Stop         =    this.Stop.bind(this)
     }
