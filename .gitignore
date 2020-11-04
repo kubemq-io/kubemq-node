@@ -1,8 +1,4 @@
 node_modules/
 .vscode/
 tls/
-<<<<<<< HEAD
-=======
-.idea/modules.xml
->>>>>>> cffffe1ebaf880ed9afd5bc63fceb8b077defdfe
 .idea/
