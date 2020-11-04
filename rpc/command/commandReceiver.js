@@ -29,7 +29,7 @@ class CommandReceiver{
     * @param {string} kubeMQHost - The KubeMQ address.
     * @param {number} kubeMQGrpcPort - The KubeMQ Grpc exposed port.
     * @param {string} client - The receiver ID, for tracing.
-    * @param {string} channelName - The pub sub communication channel. 
+    * @param {string} channel - The pub sub communication channel.
     * @param {string} group - Non mandatory group for round robin subscription.
     * @param {string} encryptionHeader -   encryption header for kubemq authorization mode
     */

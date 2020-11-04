@@ -33,9 +33,10 @@ class QuerySender {
     * @param {string} client - The publisher ID, for tracking.
     * @param {string} channelName - The pub sub communication channel.
     * @param {number} defaultTimeout - The default response timeout. 
+    * @param {string} encryptionHeader - encryptionHeader.
     */
-    constructor(kubeMQHost, kubeMQGRPCport, client, channelName, defaultTimeout,encryptionHeader = "") {
-        this.rpc = new rpc(kubeMQHost, kubeMQGRPCport, client, channelName, rpc.Type.Query, undefined, defaultTimeout,encryptionHeader)
+    constructor(kubeMQHost, kubeMQGrpcPort, client, channelName, defaultTimeout,encryptionHeader = "") {
+        this.rpc = new rpc(kubeMQHost, kubeMQGrpcPort, client, channelName, rpc.Type.Query, undefined, defaultTimeout,encryptionHeader)
     }
 
     /**

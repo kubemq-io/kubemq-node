@@ -37,7 +37,7 @@ class Channel {
     }
     //Publish a single event to kubemq.
     sendEvent(event) {
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve, _) => {
             event.Channel = this.channel_name;
             event.ClientID = this.client_id;
             event.Store = this.store;

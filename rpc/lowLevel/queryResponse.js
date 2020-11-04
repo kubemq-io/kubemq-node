@@ -25,7 +25,7 @@ class QueryResponse{
    /**
      * 
      * @param {QueryRequest} request - The received query by QueryReceiver.
-     * @param {bytes} Body - The query result body.
+     * @param {byte} Body - The query result body.
      */
     constructor(request, Body) {
 

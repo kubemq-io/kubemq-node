@@ -24,7 +24,7 @@ publisher.send(event).then(
 });
 
 //Store
-let storeSub = new kubemq.StoreSubscriber('localhost', '50000', clientID + 'store', channelName,undefined,jwt_token);
+let storeSub = new kubemq.StoreSubscriber('localhost', 50000, clientID + 'store', channelName,undefined,jwt_token);
 
 storeSub.subscribeToEvents(msg => {
     console.log('msg:' + msg.Metadata)
@@ -33,7 +33,7 @@ err => { console.log('error:' + err) },
 
 kubemq.EventStoreType.StartFromFirst, '1');
 
-let storePub = new kubemq.StorePublisher('localhost', '50000', clientID+'sender', channelName,jwt_token);
+let storePub = new kubemq.StorePublisher('localhost', 50000, clientID+'sender', channelName,jwt_token);
 
 let eventStore = new kubemq.StorePublisher.Event('test');
 eventStore.Metadata = 'test store';

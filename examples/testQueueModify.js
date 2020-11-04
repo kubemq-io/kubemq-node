@@ -14,6 +14,7 @@ function queueHandler(msg) {
         console.log("Received Message sending modify request.");
         transaction.modify(msg).then(_ => {
             console.log(msg);
+            console.log('Body:' + kubemq.byteToString(msg.Body));
         });
     }
 }

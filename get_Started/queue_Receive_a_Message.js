@@ -20,7 +20,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE. */
 const kubemq = require('../kubemq');
-let queueName = 'testQueue', clientID = 'test-queue-cliesnt-id2',
+let queueName = 'hello-world-queue', clientID = 'test-queue-cliesnt-id2',
     kubeMQAddress = 'localhost:50000';
 
 

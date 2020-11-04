@@ -28,9 +28,10 @@ class QueryReceiver{
    * @param {string} kubeMQHost - The KubeMQ address.
    * @param {number} kubeMQGrpcPort - The KubeMQ Grpc exposed port.
    * @param {string} client - The publisher ID, for tracking.
-   * @param {string} channelName - The pub sub communication channel.
+   * @param {string} channel - The pub sub communication channel.
    * @param {string} group - Non mandatory group for round robin subscription.
-   * @param {number} defaultTimeout - The default response timeout. 
+   * @param {number} defaultTimeout - The default response timeout.
+    * @param {string} encryptionHeader - encryptionHeader.
    */
     constructor(kubeMQHost, kubeMQGrpcPort, client, channel, group, defaultTimeout,encryptionHeader = "")
     {

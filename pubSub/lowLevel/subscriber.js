@@ -31,7 +31,7 @@ class Subscriber{
      * @param {string} kubemq_address   -   address to kubemq as string example:"localhost:50000".
      * @param {string} encryptionHeader - Non mandatory encryption header for kubemq authorization mode
      */
-    constructor(kubemq_address = null,encryptionHeader = ""){
+    constructor(kubeMQ_address = "",encryptionHeader = ""){
         this.grpc_conn    =    new kubeClient.GrpcClient(kubemq_address, encryptionHeader);
         this.join         =    null
         this.Stop         =    this.Stop.bind(this)
