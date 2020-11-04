@@ -32,7 +32,7 @@ class QueryReceiver{
    * @param {string} group - Non mandatory group for round robin subscription.
    * @param {number} defaultTimeout - The default response timeout. 
    */
-    constructor(kubeMQHost, kubeMQGrpcPort, client, channel, group, defaultTimeout,encryptionHeader = null)
+    constructor(kubeMQHost, kubeMQGrpcPort, client, channel, group, defaultTimeout,encryptionHeader = "")
     {
         this.rpc = new rpc(kubeMQHost, kubeMQGrpcPort, client, channel, rpc.Type.Query,group, defaultTimeout,encryptionHeader)
     }

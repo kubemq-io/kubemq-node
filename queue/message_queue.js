@@ -42,7 +42,7 @@ const streamRequest = require('./stream_request_type')
 * @param {string} encryptionHeader - Non mandatory encryption header for kubemq authorization mode
 */
 class MessageQueue{
-    constructor(kubemq_address=null,queue_name,client_id,max_number_of_messages=32,wait_time_seconds_queue_messages=1,encryptionHeader = null){
+    constructor(kubemq_address=null,queue_name,client_id,max_number_of_messages=32,wait_time_seconds_queue_messages=1,encryptionHeader = ""){
 
         this.grpc_conn                          =   new kubeClient.GrpcClient(kubemq_address,encryptionHeader);
         this.queue                              =   queue_name;

@@ -33,7 +33,7 @@ class CommandReceiver{
     * @param {string} group - Non mandatory group for round robin subscription.
     * @param {string} encryptionHeader -   encryption header for kubemq authorization mode
     */
-    constructor(kubeMQHost, kubeMQGrpcPort, client, channel, group,encryptionHeader = null)
+    constructor(kubeMQHost, kubeMQGrpcPort, client, channel, group,encryptionHeader = "")
     {
         this.rpc = new rpc(kubeMQHost, kubeMQGrpcPort, client, channel, rpc.Type.Command,group, 1000 , encryptionHeader)
     }

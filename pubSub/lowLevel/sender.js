@@ -32,7 +32,7 @@ class Sender{
      * @param {string} kubemq_address   -   address to kubemq as string example:"localhost:50000".
      * @param {string} encryptionHeader -   Non mandatory for encryption header for kubemq authorization mode
      */
-    constructor(kubemq_address = null , encryptionHeader = null){
+    constructor(kubemq_address = null , encryptionHeader = ""){
         this.grpc_conn    =   new kubeClient.GrpcClient(kubemq_address , encryptionHeader);
         this.stream       =   null;
     }

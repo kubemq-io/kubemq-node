@@ -27,7 +27,7 @@ const QueryResponse = require('./lowLevel/queryResponse');
 
 class rpc {
 
-    constructor(kubeMQHost, kubeMQGRPCport, client, channel, type, group, defaultTimeout ,encryptionHeader = null) {
+    constructor(kubeMQHost, kubeMQGRPCport, client, channel, type, group, defaultTimeout ,encryptionHeader = "") {
 
         this.kubeMQHost = kubeMQHost;
         this.kubeMQport = isNaN(kubeMQGRPCport)? kubeMQGRPCport.toString() : kubeMQGRPCport ;

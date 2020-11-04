@@ -34,7 +34,7 @@ class QuerySender {
     * @param {string} channelName - The pub sub communication channel.
     * @param {number} defaultTimeout - The default response timeout. 
     */
-    constructor(kubeMQHost, kubeMQGRPCport, client, channelName, defaultTimeout,encryptionHeader = null) {
+    constructor(kubeMQHost, kubeMQGRPCport, client, channelName, defaultTimeout,encryptionHeader = "") {
         this.rpc = new rpc(kubeMQHost, kubeMQGRPCport, client, channelName, rpc.Type.Query, undefined, defaultTimeout,encryptionHeader)
     }
 

@@ -32,7 +32,7 @@ class Subscriber {
    * @param {string} group - Non mandatory group for round robin subscription.
    * @param {string} encryptionHeader - Non mandatory for encryption header for kubemq authorization mode
    */
-    constructor(kubeMQHost, kubeMQGrpcPort, client, channelName, group = undefined, encryptionHeader = null) {
+    constructor(kubeMQHost, kubeMQGrpcPort, client, channelName, group = undefined, encryptionHeader = "") {
         this.PubSub = new PubSub(kubeMQHost, kubeMQGrpcPort, client, channelName, group, false , encryptionHeader)
     }
 

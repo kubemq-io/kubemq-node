@@ -30,7 +30,7 @@ class Transaction{
 	 * @param {MessageQueue} queue 		-   The KubeMQ message queue to create transaction.
 	 * @param {string} encryptionHeader -   Non mandatory encryption header for kubemq authorization mode
 	 */
-	constructor(kubemq_address=null,queue,encryptionHeader = null){
+	constructor(kubemq_address=null,queue,encryptionHeader = ""){
 		this.grpc_conn          		=   new kubeClient.GrpcClient(kubemq_address , encryptionHeader);
 		this.queue              		=   queue;
 		this.stream             		=   false;

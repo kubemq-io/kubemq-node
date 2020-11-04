@@ -29,7 +29,7 @@ let subscriber;
 let sender;
 
 class PubSub{
-    constructor(kubeMQHost, kubeMQPort, client, channelName, group, useStore=false , encryptionHeader = null) {
+    constructor(kubeMQHost, kubeMQPort, client, channelName, group, useStore=false , encryptionHeader = "") {
    
         this.kubeMQHost    =  kubeMQHost;
         this.kubeMQPort    =  isNaN(kubeMQPort)? kubeMQPort.toString() : kubeMQPort ;

@@ -31,7 +31,7 @@ class Publisher {
     * @param {string} channelName - The pub sub communication channel.
     * @param {string} encryptionHeader - Non mandatory for encryption header for kubemq authorization mode
     */
-    constructor(kubeMQHost, kubeMQGrpcPort, client, channelName ,encryptionHeader = null) {
+    constructor(kubeMQHost, kubeMQGrpcPort, client, channelName ,encryptionHeader = "") {
         this.PubSub = new PubSub(kubeMQHost, kubeMQGrpcPort, client, channelName, undefined ,false,encryptionHeader )
     }
     
