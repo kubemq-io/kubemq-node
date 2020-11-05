@@ -21,7 +21,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE. */
 
 const rpc = require('../rpc');
-const QueryRequest = require('../lowlevel/queryRequest')
+const QueryRequest = require('../lowLevel/queryRequest')
 
 //** Class representing a query request sender. */
 
