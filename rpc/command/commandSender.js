@@ -34,13 +34,13 @@ class CommandSender{
     * @param {string} kubeMQHost - The KubeMQ address.
     * @param {number} kubeMQGrpcPort - The KubeMQ Grpc exposed port.
     * @param {string} client - The receiver ID, for tracing.
-    * @param {string} channelName - The pub sub communication channel. 
+    * @param {string} channel - The pub sub communication channel.
     * @param {number} defaultTimeout - The default response timeout. 
     */
 
-    constructor(kubeMQHost, kubeMQGrpcPort, client, channel, defaultTimeout)
+    constructor(kubeMQHost, kubeMQGrpcPort, client, channel, defaultTimeout,encryptionHeader = "")
     {
-        this.rpc = new rpc(kubeMQHost, kubeMQGrpcPort, client, channel, rpc.Type.Command,undefined, defaultTimeout)
+        this.rpc = new rpc(kubeMQHost, kubeMQGrpcPort, client, channel, rpc.Type.Command,undefined, defaultTimeout,encryptionHeader)
     }
 
     /**

@@ -21,23 +21,25 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE. */
 
 const PubSub = require('../pubSub')
+
 /** Class representing an event with persistent storage pattern publisher.*/
 class StorePublisher {
     /** Create an event persistent publisher.
-     * 
-    * @param {string} kubeMQHost - The KubeMQ address.
-    * @param {number} kubeMQGrpcPort - The KubeMQ Grpc exposed port.
-    * @param {string} client - The publisher ID, for tracing.
-    * @param {string} channelName - The pub sub communication channel.    
-    */
-    constructor(kubeMQHost, kubeMQGrpcPort, client, channelName) {
-        this.PubSub = new PubSub(kubeMQHost, kubeMQGrpcPort, client, channelName, undefined, true)
+     *
+     * @param {string} kubeMQHost - The KubeMQ address.
+     * @param {number} kubeMQGrpcPort - The KubeMQ Grpc exposed port.
+     * @param {string} client - The publisher ID, for tracing.
+     * @param {string} channelName - The pub sub communication channel.
+     * @param {string} encryptionHeader - Non mandatory for encryption header for kubemq authorization mode
+     */
+    constructor(kubeMQHost, kubeMQGrpcPort, client, channelName, encryptionHeader = "") {
+        this.PubSub = new PubSub(kubeMQHost, kubeMQGrpcPort, client, channelName, undefined, true, encryptionHeader)
     }
 
     /**
-    * publish event.
-    *   @param {event} event - The data to publish.
-    */
+     * publish event.
+     *   @param {event} event - The data to publish.
+     */
     send(event) {
 
         return this.PubSub.send(event);
@@ -45,9 +47,9 @@ class StorePublisher {
     }
 
     /**
-    * stream events, keep and open stream to stream event.
-    * @param {EventEmitter} event_emitter - Emits on('message'}.
-    */
+     * stream events, keep and open stream to stream event.
+     * @param {EventEmitter} event_emitter - Emits on('message'}.
+     */
     stream(event_emitter) {
         this.PubSub.stream(event_emitter);
     }

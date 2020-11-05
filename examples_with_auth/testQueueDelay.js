@@ -20,19 +20,24 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE. */
 
-
-
-
 const kubemq = require('../kubemq');
+let jwt_token = "eyJhbGciOiJIUzI1NiJ9.e30.tNiB_q4Qk-ox-ZrEADaLi9gJpKZ9KJUSP16uqjHAdTE";
+let queueName = 'testQueue', clientID = 'test-queue-client-id2',
+    kubeMQAddress = 'localhost:50000';
 
-let channelName = 'pubsub', clientID = 'hello-world-subscriber',
-    kubeMQHost = 'localhost', kubeMQGrpcPort = 50000;
 
-let sub = new kubemq.Subscriber(kubeMQHost, kubeMQGrpcPort, clientID, channelName);
-
-sub.subscribeToEvents(msg => {
-    console.log('Event Received: EventID:' + msg.EventID + ', Channel:' + msg.Channel + ' ,Metadata:' + msg.Metadata + ', Body:' + kubemq.byteToString(msg.Body));
-}, err => {
-    console.log('error:' + err)
-})
+let queue = new kubemq.Queue(kubeMQAddress, queueName, clientID,32,1,jwt_token);
+let message =new kubemq.Message('metadata', kubemq.stringToByte('some-simple-queue-queue-message'))
+message.addDelay(15)
+queue.sendQueueMessage(
+    message)
+    .then(sent => {
+        if (sent.Error) {
+            console.log('message enqueue error, error:' + err);
+        } else {
+            console.log('"message sent at:' + sent.SentAt);
+        }
+    }).catch(err => {
+        console.log('message enqueue error, error:' + err);
+    });
 

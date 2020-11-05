@@ -1,6 +1,9 @@
 # KubeMQ Node.js
 The **KubeMQ SDK for Node.js** enables Node.js developers to communicate with [KubeMQ](https://kubemq.io/) server.
 
+Please note :
+Version 2.0 and above require the kubemq version 2
+
 ## General SDK description
 The SDK implements all communication patterns available through the KubeMQ server:
 - Events
@@ -230,7 +233,7 @@ transaction.receive(100, 1, queueHandler, errorHandler)
 
 function queueHandler(msg) {
   console.log(`Received messages ${msg.StreamRequestTypeData}`);
-  if (msg.StreamRequestTypeData == 'ReceiveMessage') {
+  if (msg.StreamRequestTypeData === 'ReceiveMessage') {
     if (msg.IsError === false) {
       let msgSequence = msg.Message.Attributes.Sequence;
       workOnMSG(msg).then(_ => {
@@ -280,7 +283,7 @@ let transaction = message_queue.createTransaction();
 
 function queueHandler(msg) {
   console.log(`Received messages ${msg.StreamRequestTypeData}`);
-  if (msg.StreamRequestTypeData == 'ReceiveMessage') {
+  if (msg.StreamRequestTypeData === 'ReceiveMessage') {
     console.log('Need more time to process, extend visibility for more 3 seconds');
     transaction.extendVisibility(3).then(_ => {
       console.log(`sent extendVisibilityRequest`);
@@ -302,7 +305,7 @@ let transaction = message_queue.createTransaction();
 
 function queueHandler(msg) {
   console.log(`Received messages ${msg}`);
-  if (msg.StreamRequestTypeData == 'ReceiveMessage') {
+  if (msg.StreamRequestTypeData === 'ReceiveMessage') {
     console.log('Received Message sending resend request.');
     transaction.resend('testQueue').then(_ => {
       console.log(`sent resend`);
@@ -345,7 +348,7 @@ transaction.receive(5, 10, queueHandler, errorHandler);
 ### Sending Events
 #### Single event
 ```JavaScript
-const pub = new kubemq.Publisher('localhost', '50000', 'pub', 'pubsub');
+const pub = new kubemq.Publisher('localhost', 50000, 'pub', 'pubsub');
 
 const event = new kubemq.Publisher.Event(kubemq.stringToByte('test'));
 
@@ -376,7 +379,7 @@ for (let i = 1; i < 5; i++) {
 
 ### Receiving Events
 ```JavaScript
-let sub = new kubemq.Subscriber('localhost', '50000', 'sub', 'testing_event_channel');
+let sub = new kubemq.Subscriber('localhost', 50000, 'sub', 'testing_event_channel');
 
 sub.subscribeToEvents(msg => {
   console.log('msg:' + String.fromCharCode.apply(null, msg.Body))
@@ -398,7 +401,7 @@ KubeMQ supports six types of subscriptions:
 ### Sending Event Store
 #### Single Event Store
 ```JavaScript
-let storePub = new kubemq.StorePublisher('localhost', '50000', 'pub', 'pubsubper');
+let storePub = new kubemq.StorePublisher('localhost', 50000, 'pub', 'pubsubper');
 
 let eventStore = new kubemq.StorePublisher.Event('test');
 eventStore.Metadata = 'test store';
@@ -410,7 +413,7 @@ storePub.send(eventStore).then(res => {
 
 ### Receiving Events Store
 ```JavaScript
-const storeSub = new kubemq.StoreSubscriber('localhost', '50000', 'sub', 'pubsubper');
+const storeSub = new kubemq.StoreSubscriber('localhost', 50000, 'sub', 'pubsubper');
 
 storeSub.subscribeToEvents(msg => {
     console.log('msg:' + msg.Metadata);
@@ -427,7 +430,7 @@ The response can be successful or not. This is the responsibility of the respond
 
 #### Receiving Commands Requests  
 ```JavaScript
-const commandReceiver = new kubemq.CommandReceiver('localhost', '50000', 'cc', 'cmd');
+const commandReceiver = new kubemq.CommandReceiver('localhost', 50000, 'cc', 'cmd');
 
 commandReceiver.subscribe(cmd => {
   console.log(cmd);
@@ -447,7 +450,7 @@ commandReceiver.subscribe(cmd => {
 
 ### Sending Command Request
 ```JavaScript
-const sender = new kubemq.CommandSender('localhost', '50000', 'cc1', 'cmd', 10000);
+const sender = new kubemq.CommandSender('localhost', 50000, 'cc1', 'cmd', 10000);
 
 let request = new kubemq.CommandSender.CommandRequest(kubemq.stringToByte('test'));
 
@@ -464,7 +467,7 @@ The response must include metadata or body together with an indication of succes
 
 ### Receiving Query Requests
 ```JavaScript
-const query = new kubemq.QueryReceiver('localhost', '50000', 'cc', 'qry', undefined, 10000);
+const query = new kubemq.QueryReceiver('localhost', 50000, 'cc', 'qry', undefined, 10000);
 
 query.subscribe(qry => {
     console.log(qry);
@@ -481,7 +484,7 @@ query.subscribe(qry => {
 
 ### Sending Query Requests
 ```JavaScript
-const qrySend = new kubemq.QuerySender('localhost', '50000', 'cc1', 'qry', 10000);
+const qrySend = new kubemq.QuerySender('localhost', 50000, 'cc1', 'qry', 10000);
 
 let request = new kubemq.QueryRequest(kubemq.stringToByte('select books'));
 qrySend.send(request).then(res => {

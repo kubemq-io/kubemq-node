@@ -30,9 +30,10 @@ class Subscriber {
    * @param {string} client - The publisher ID, for tracing.
    * @param {string} channelName - The pub sub communication channel.
    * @param {string} group - Non mandatory group for round robin subscription.
+   * @param {string} encryptionHeader - Non mandatory for encryption header for kubemq authorization mode
    */
-    constructor(kubeMQHost, kubeMQGrpcPort, client, channelName, group) {
-        this.PubSub = new PubSub(kubeMQHost, kubeMQGrpcPort, client, channelName, group)
+    constructor(kubeMQHost, kubeMQGrpcPort, client, channelName, group = undefined, encryptionHeader = "") {
+        this.PubSub = new PubSub(kubeMQHost, kubeMQGrpcPort, client, channelName, group, false , encryptionHeader)
     }
 
     /**

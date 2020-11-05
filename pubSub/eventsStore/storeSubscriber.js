@@ -30,9 +30,10 @@ class StoreSubscriber{
    * @param {string} client - The publisher ID, for tracing.
    * @param {string} channelName - The pub sub communication channel.
    * @param {string} group - Non mandatory group for round robin subscription.
+   * @param {string} encryptionHeader - Non mandatory for encryption header for kubemq authorization mode 
    */
-    constructor(kubeMQHost, kubeMQGrpcPort, client, channelName, group) {
-        this.pubSub = new PubSub(kubeMQHost, kubeMQGrpcPort, client, channelName, group, true)
+    constructor(kubeMQHost, kubeMQGrpcPort, client, channelName, group,encryptionHeader = "") {
+        this.pubSub = new PubSub(kubeMQHost, kubeMQGrpcPort, client, channelName, group, true,encryptionHeader)
     }
 
      /**

@@ -31,13 +31,13 @@ class Channel {
         this.store = params.store;
         this.sendEvent = this.sendEvent.bind(this)
         this.createLowLevelEvent = this.createLowLevelEvent.bind(this)
-        this.sender = new Sender(params.kubemq_address)
+        this.sender = new Sender(params.kubemq_address, params.encryptionHeader)
         this.stream = null
 
     }
     //Publish a single event to kubemq.
     sendEvent(event) {
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve, _) => {
             event.Channel = this.channel_name;
             event.ClientID = this.client_id;
             event.Store = this.store;
@@ -55,7 +55,7 @@ class Channel {
             this.stream.write(data);
         })
 
-        this.stream = Sender.grpc_conn.get_kubemq_client().SendEventsStream();
+        this.stream = Sender.grpc_conn.get_kubemq_client().SendEventsStream(this.grpc_conn._metadata);
     }
 }
 

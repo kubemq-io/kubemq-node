@@ -21,7 +21,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE. */
 const kubemq = require('../kubemq');
 
-let kubeMQHost = 'localhost', kubeMQGrpcPort = '50000',
+let kubeMQHost = 'localhost', kubeMQGrpcPort = 50000,
     channelName = 'testing_Command_channel', clientID = 'hello-world-sender',
     defaultTimeOut = 10000;
 

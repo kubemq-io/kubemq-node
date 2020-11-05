@@ -29,9 +29,10 @@ class Subscriber{
     /**
      * 
      * @param {string} kubemq_address   -   address to kubemq as string example:"localhost:50000".
+     * @param {string} encryptionHeader - Non mandatory encryption header for kubemq authorization mode
      */
-    constructor(kubemq_address=null){
-        this.grpc_conn    =    new kubeClient.GrpcClient(kubemq_address);
+    constructor(kubeMQ_address = "",encryptionHeader = ""){
+        this.grpc_conn    =    new kubeClient.GrpcClient(kubeMQ_address, encryptionHeader);
         this.join         =    null
         this.Stop         =    this.Stop.bind(this)
     }
@@ -46,7 +47,7 @@ class Subscriber{
         
         //TODO Validate store
 
-        this.join    =    this.grpc_conn.get_kubemq_client().SubscribeToEvents(subscribe_request);
+        this.join    =    this.grpc_conn.get_kubemq_client().SubscribeToEvents(subscribe_request,this.grpc_conn._metadata);
         this.join.on("data",req_handler);
         this.join.on("error",error_handler);
     }
@@ -58,7 +59,7 @@ class Subscriber{
     
     ping(){
         return new Promise((resolve, reject) =>{
-                this.grpc_conn.get_kubemq_client().Ping({}, function(err, response) {
+                this.grpc_conn.get_kubemq_client().Ping({}, this.grpc_conn._metadata,function(err, response) {
                 if (err) {
                     reject (new Error(err));
                 }else{

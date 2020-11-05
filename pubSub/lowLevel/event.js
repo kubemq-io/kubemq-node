@@ -21,11 +21,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE. */
 
 
-class Event{
+class Event {
 
-    constructor(body){
+    constructor(body) {
         //Represents the content of the Event
-        this.Body =   body;
+        this.Body = body;
         //key value pair to help distinguish the event.
         this.Tags = undefined;
         //Represents a Event identifier.
@@ -35,4 +35,4 @@ class Event{
     }
 }
 
-module.exports     =    Event;
+module.exports = Event;

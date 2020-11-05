@@ -22,22 +22,22 @@ SOFTWARE. */
 
 const kubemq = require('../kubemq');
 
-let queueName = 'hello-world-queue', clientID = 'test-queue-client-id2',
+let queueName = 'testQueue', clientID = 'test-queue-client-id2',
     kubeMQAddress = 'localhost:50000';
 
 
 let queue = new kubemq.Queue(kubeMQAddress, queueName, clientID);
-let message =new kubemq.Message('metadata', kubemq.stringToByte('some-simple_queue-queue-message'))
+let message = new kubemq.Message('metadata', kubemq.stringToByte('some-simple-queue-queue-message'))
 message.addDelay(15)
 queue.sendQueueMessage(
     message)
     .then(sent => {
         if (sent.Error) {
-            console.log('message enqueue error, error:' + err);
+            console.log('message enqueue error, error:' + sent.Error);
         } else {
             console.log('"message sent at:' + sent.SentAt);
         }
     }).catch(err => {
-        console.log('message enqueue error, error:' + err);
-    });
+    console.log('message enqueue error, error:' + err);
+});
 
