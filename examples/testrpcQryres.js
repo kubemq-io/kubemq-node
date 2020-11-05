@@ -6,7 +6,7 @@ query.subscribe(qry => {
         console.log('Body:' + kubemq.byteToString(qry.Body));
         let respond = new kubemq.QueryReceiver.QueryResponse(qry, kubemq.stringToByte('result:123'));
         query.sendResponse(respond).then(snd => {
-            console.log('sent:' + snd);
+            console.log('sent: message ');
         }).catch(cht => console.log(cht));
 
     }, err => {

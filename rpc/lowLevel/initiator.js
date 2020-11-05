@@ -23,17 +23,19 @@ SOFTWARE. */
 //Represents the instance  that is responsible to send events to the kubemq.
 
 const kubeClient = require('../../basic/grpc_client');
-class Initiator{
-    constructor(kubemq_address  =    null , encryptionHeader = ""){
-        this.grpc_conn          =    new kubeClient.GrpcClient(kubemq_address , encryptionHeader);
+
+class Initiator {
+    constructor(kubemq_address = null, encryptionHeader = "") {
+        this.grpc_conn = new kubeClient.GrpcClient(kubemq_address, encryptionHeader);
     }
+
     //Publish a single event to kubemq.
-    sendRequest(request){
-        return new Promise((resolve, reject) =>{   
-              this.grpc_conn.get_kubemq_client().SendRequest(request,this.grpc_conn._metadata,function(err, response) {
+    sendRequest(request) {
+        return new Promise((resolve, reject) => {
+            this.grpc_conn.get_kubemq_client().SendRequest(request, this.grpc_conn._metadata, function (err, response) {
                 if (err) {
                     reject(new Error(err));
-                }else{
+                } else {
                     resolve(response);
                 }
             });
@@ -41,13 +43,13 @@ class Initiator{
     }
 
     //ping check connection to the kubemq.
-    ping(){
-        return new Promise((resolve, reject) =>{
+    ping() {
+        return new Promise((resolve, reject) => {
 
-                this.grpc_conn.get_kubemq_client().Ping({},this.grpc_conn._metadata, function(err, response) {
+            this.grpc_conn.get_kubemq_client().Ping({}, this.grpc_conn._metadata, function (err, response) {
                 if (err) {
-                    reject (new Error(err));
-                }else{
+                    reject(new Error(err));
+                } else {
                     resolve(response);
                 }
             });
@@ -56,4 +58,4 @@ class Initiator{
 }
 
 
-module.exports    =    Initiator;
+module.exports = Initiator;

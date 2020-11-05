@@ -29,7 +29,7 @@ receiver.subscribe(cmd => {
     let response = new kubemq.CommandReceiver.Response(cmd, true);
     response.Timestamp = Math.floor(new Date() / 1000);
     receiver.sendResponse(response).then(snd => {
-        console.log('sent:' + snd);
+        console.log('sent response');
     }).catch(cht => console.log(cht));
 }, err => {
     console.log(err);

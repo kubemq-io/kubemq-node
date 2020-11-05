@@ -5,4 +5,6 @@ let request = new kubemq.CommandSender.CommandRequest(kubemq.stringToByte('test'
 
 sender.send(request).then(res => {
     console.log(res.Executed)
+}).catch(err => {
+    console.log('message  Command Request  error, error:' + err);
 });

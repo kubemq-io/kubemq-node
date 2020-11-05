@@ -27,7 +27,7 @@ var grpc = require('grpc');
 var fs = require('fs');
 
 class GrpcClient {
-    constructor(_kubemq_address = null, encryptionHeader = "") {
+    constructor(_kubemq_address = "", encryptionHeader = "") {
         this._init_registration.bind(this)
         this._kubemq_address = _kubemq_address
         this.get_kubemq_client.bind(this)
@@ -37,7 +37,7 @@ class GrpcClient {
 
     get_kubemq_client() {
         if (this._client === null) {
-            if (this._kubemq_address === null) {
+            if (this._kubemq_address === "") {
                 this._kubemq_address = this.get_kubemq_address()
             }
 
@@ -58,12 +58,12 @@ class GrpcClient {
 
 
     get_kubemq_address() {
-        if (this._kubemq_address != null) {
+        if (this._kubemq_address !== "") {
             return this._kubemq_address
         }
 
         this._kubemq_address = configuration_loader.get_server_address()
-        if (this._kubemq_address === null) {
+        if (this._kubemq_address === "") {
             throw "Server Address was not supplied"
         }
         return this._kubemq_address

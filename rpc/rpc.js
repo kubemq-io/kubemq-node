@@ -30,7 +30,7 @@ class rpc {
     constructor(kubeMQHost, kubeMQGRPCport, client, channel, type, group, defaultTimeout ,encryptionHeader = "") {
 
         this.kubeMQHost = kubeMQHost;
-        this.kubeMQport = isNaN(kubeMQGRPCport)? kubeMQGRPCport.toString() : kubeMQGRPCport ;
+        this.kubeMQport = isNaN(kubeMQGRPCport)? kubeMQGRPCport.toString() : kubeMQGRPCport;
         this.channel = channel;
         this.defaultTimeout = defaultTimeout;
         this.client = client;

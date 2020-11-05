@@ -22,12 +22,12 @@ SOFTWARE. */
 
 const kubemq = require('../kubemq');
 let jwt_token = "eyJhbGciOiJIUzI1NiJ9.e30.tNiB_q4Qk-ox-ZrEADaLi9gJpKZ9KJUSP16uqjHAdTE";
-let queueName = 'hello-world-queue', clientID = 'test-queue-client-id2',
+let queueName = 'testQueue', clientID = 'test-queue-client-id2',
     kubeMQAddress = 'localhost:50000';
 
 
 let queue = new kubemq.Queue(kubeMQAddress, queueName, clientID, 32, 1, jwt_token);
-let message = new kubemq.Message('metadata', kubemq.stringToByte('some-simple_queue-queue-message'))
+let message = new kubemq.Message('metadata', kubemq.stringToByte('some-simple-queue-queue-message'))
 message.addExpiration(100)
 queue.sendQueueMessage(
     message)

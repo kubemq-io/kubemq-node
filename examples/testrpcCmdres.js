@@ -1,13 +1,13 @@
 const kubemq = require('../kubemq');
 
-const commandReceiver = new kubemq.CommandReceiver('localhost', 50000, 'cc', 'cmd');
+const commandReceiver = new kubemq.CommandReceiver('localhost', 50000, 'cc', 'cmd', "");
 
 commandReceiver.subscribe(cmd => {
     console.log(cmd);
     console.log('Body:' + kubemq.byteToString(cmd.Body));
     let respond = new kubemq.CommandReceiver.Response(cmd, true);
     commandReceiver.sendResponse(respond).then(snd => {
-        `sent:${snd}`;
+        console.log('sent: message');
     }).catch(err => {
         console.log(err)
     });

@@ -6,7 +6,7 @@ let message_queue = new kubemq.MessageQueue('localhost:50000', 'testQueue', 'cli
 let transaction = message_queue.createTransaction();
 
 function queueHandler(msg) {
-    console.log(`Received messages ${msg}`);
+    console.log(`Received messages ${JSON.stringify(msg.Message)}`);
     if (msg.StreamRequestTypeData === "ReceiveMessage") {
         console.log("Received Message sending resend request.");
         transaction.resend('testQueue').then(_ => {
@@ -16,7 +16,7 @@ function queueHandler(msg) {
 }
 
 function errorHandler(msg) {
-    console.log(`Received error ${msg}`);
+    console.log(`Received error ${JSON.stringify(msg)}`);
 }
 
 transaction.receive(5, 10, queueHandler, errorHandler);
