@@ -1,4 +1,4 @@
-**NOTE - This SDK is going under changes to support all KubeMQ features and Typescript support. Stay tuned** 
+**NOTE - This SDK is going under changes to support all KubeMQ features and Typescript support, stay tuned.** 
 # KubeMQ Node.js
 The **KubeMQ SDK for Node.js** enables Node.js developers to communicate with [KubeMQ](https://kubemq.io/) server.
 
